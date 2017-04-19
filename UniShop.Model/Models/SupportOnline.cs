@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace UniShop.Model.Models
 {
     [Table("SupportOnlines")]
-    class SupportOnline
+    public class SupportOnline
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

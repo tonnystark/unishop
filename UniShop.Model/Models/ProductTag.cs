@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace UniShop.Model.Models
 {
     [Table("ProductTags")]
-    public class PtoductTag
+    public class ProductTag
     {
         [Key]
         public int ProductID { get; set; }
