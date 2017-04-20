@@ -11,12 +11,12 @@ namespace UniShop.Model.Models
     [Table("ProductTags")]
     public class ProductTag
     {
-        [Key]
+        [Key, Column(Order = 0)]
         public int ProductID { get; set; }
 
         [Key]
         [MaxLength(50)]
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar", Order = 1)]
         public string TagID { get; set; }
 
         [ForeignKey("ProductID")]
