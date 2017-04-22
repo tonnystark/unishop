@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using UniShop.Model.Abstract;
 
 namespace UniShop.Model.Models
@@ -13,7 +8,6 @@ namespace UniShop.Model.Models
     [Table("Posts")]
     public class Post : Auditable
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { set; get; }
@@ -32,10 +26,11 @@ namespace UniShop.Model.Models
 
         [MaxLength(256)]
         public string Image { set; get; }
-       
+
 
         [MaxLength(500)]
         public string Description { set; get; }
+
         public string Content { set; get; }
 
         public bool? HomeFlag { set; get; }
@@ -44,7 +39,7 @@ namespace UniShop.Model.Models
 
         [ForeignKey("CategoryID")]
         public virtual PostCategory PostCategory { get; set; }
-        public virtual  IEnumerable<PostTag> PostTags { get; set; }
 
+        public virtual IEnumerable<PostTag> PostTags { get; set; }
     }
 }

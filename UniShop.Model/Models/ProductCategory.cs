@@ -22,6 +22,7 @@ namespace UniShop.Model.Models
 
         [MaxLength(500)]
         public string Description { set; get; }
+
         public int? ParentID { set; get; }
         public int? DisplayOrder { set; get; }
 

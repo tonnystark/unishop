@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 using UniShop.Model.Abstract;
 
 namespace UniShop.Model.Models
@@ -28,6 +27,7 @@ namespace UniShop.Model.Models
 
         [Column(TypeName = "xml")]
         public string MoreImages { set; get; }
+
         public decimal Price { set; get; }
 
         public decimal? PromotionPrice { set; get; }
@@ -35,6 +35,7 @@ namespace UniShop.Model.Models
 
         [MaxLength(500)]
         public string Description { set; get; }
+
         public string Content { set; get; }
 
         public bool? HomeFlag { set; get; }

@@ -1,18 +1,15 @@
+using System.Data.Entity.Migrations;
+
 namespace UniShop.Data.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<UniShop.Data.UniShopDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<UniShopDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(UniShop.Data.UniShopDbContext context)
+        protected override void Seed(UniShopDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

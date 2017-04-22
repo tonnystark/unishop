@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UniShop.Data.Infrastructure;
 using UniShop.Model.Models;
 
@@ -21,8 +18,7 @@ namespace UniShop.Data.Repositories
 
         public IEnumerable<ProductCategory> GetByAlias(string alias)
         {
-            return this.DbContext.ProductCategories.Where(p => p.Alias == alias);
+            return DbContext.ProductCategories.Where(p => p.Alias == alias);
         }
     }
-
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UniShop.Data.Infrastructure;
 using UniShop.Data.Repositories;
 using UniShop.Model.Models;
@@ -20,25 +16,25 @@ namespace UniShop.Service
         IEnumerable<Post> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow);
         void SaveChanges();
     }
+
     public class PostService : IPostService
     {
-        private IPostRepository _postRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly IPostRepository _postRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PostService(IPostRepository postRepository, IUnitOfWork unitOfWork)
         {
-            this._postRepository = postRepository;
-            this._unitOfWork = unitOfWork;
+            _postRepository = postRepository;
+            _unitOfWork = unitOfWork;
         }
+
         public void Add(Post post)
         {
             _postRepository.Add(post);
-
         }
 
         public void Update(Post post)
         {
-
             _postRepository.Update(post);
         }
 
@@ -49,7 +45,7 @@ namespace UniShop.Service
 
         public IEnumerable<Post> GetAll()
         {
-            return _postRepository.GetAll(new string[] { "PostCategory" });
+            return _postRepository.GetAll(new[] {"PostCategory"});
         }
 
         public IEnumerable<Post> GetAllPaging(int page, int pageSize, int totalRow)
@@ -69,7 +65,7 @@ namespace UniShop.Service
 
         public void SaveChanges()
         {
-         _unitOfWork.Commit();
+            _unitOfWork.Commit();
         }
     }
 }

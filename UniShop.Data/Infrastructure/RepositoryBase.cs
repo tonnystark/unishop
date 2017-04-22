@@ -3,36 +3,33 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UniShop.Data.Infrastructure
 {
     public abstract class RepositoryBase<T> where T : class
     {
-        #region Properties
-        private UniShopDbContext dataContext;
-        private readonly IDbSet<T> dbSet;
-
-        protected IDbFactory DbFactory
-        {
-            get;
-            private set;
-        }
-
-        protected UniShopDbContext DbContext
-        {
-            get { return dataContext ?? (dataContext = DbFactory.Init()); }
-        }
-        #endregion
-
         protected RepositoryBase(IDbFactory dbFactory)
         {
             DbFactory = dbFactory;
             dbSet = DbContext.Set<T>();
         }
 
+        #region Properties
+
+        private UniShopDbContext dataContext;
+        private readonly IDbSet<T> dbSet;
+
+        protected IDbFactory DbFactory { get; }
+
+        protected UniShopDbContext DbContext
+        {
+            get { return dataContext ?? (dataContext = DbFactory.Init()); }
+        }
+
+        #endregion
+
         #region Implementation
+
         public virtual void Add(T entity)
         {
             dbSet.Add(entity);
@@ -57,8 +54,8 @@ namespace UniShop.Data.Infrastructure
 
         public virtual void DeleteMulti(Expression<Func<T, bool>> where)
         {
-            IEnumerable<T> objects = dbSet.Where<T>(where).AsEnumerable();
-            foreach (T obj in objects)
+            var objects = dbSet.Where(where).AsEnumerable();
+            foreach (var obj in objects)
                 dbSet.Remove(obj);
         }
 
@@ -105,15 +102,16 @@ namespace UniShop.Data.Infrastructure
                 var query = dataContext.Set<T>().Include(includes.First());
                 foreach (var include in includes.Skip(1))
                     query = query.Include(include);
-                return query.Where<T>(predicate).AsQueryable<T>();
+                return query.Where(predicate).AsQueryable();
             }
 
-            return dataContext.Set<T>().Where<T>(predicate).AsQueryable<T>();
+            return dataContext.Set<T>().Where(predicate).AsQueryable();
         }
 
-        public virtual IQueryable<T> GetMultiPaging(Expression<Func<T, bool>> predicate, out int total, int index = 0, int size = 20, string[] includes = null)
+        public virtual IQueryable<T> GetMultiPaging(Expression<Func<T, bool>> predicate, out int total, int index = 0,
+            int size = 20, string[] includes = null)
         {
-            int skipCount = index * size;
+            var skipCount = index*size;
             IQueryable<T> _resetSet;
 
             //HANDLE INCLUDES FOR ASSOCIATED OBJECTS IF APPLICABLE
@@ -122,11 +120,13 @@ namespace UniShop.Data.Infrastructure
                 var query = dataContext.Set<T>().Include(includes.First());
                 foreach (var include in includes.Skip(1))
                     query = query.Include(include);
-                _resetSet = predicate != null ? query.Where<T>(predicate).AsQueryable() : query.AsQueryable();
+                _resetSet = predicate != null ? query.Where(predicate).AsQueryable() : query.AsQueryable();
             }
             else
             {
-                _resetSet = predicate != null ? dataContext.Set<T>().Where<T>(predicate).AsQueryable() : dataContext.Set<T>().AsQueryable();
+                _resetSet = predicate != null
+                    ? dataContext.Set<T>().Where(predicate).AsQueryable()
+                    : dataContext.Set<T>().AsQueryable();
             }
 
             _resetSet = skipCount == 0 ? _resetSet.Take(size) : _resetSet.Skip(skipCount).Take(size);
@@ -136,8 +136,9 @@ namespace UniShop.Data.Infrastructure
 
         public bool CheckContains(Expression<Func<T, bool>> predicate)
         {
-            return dataContext.Set<T>().Count<T>(predicate) > 0;
+            return dataContext.Set<T>().Count(predicate) > 0;
         }
+
         #endregion
     }
 }

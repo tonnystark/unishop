@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using UniShop.Model.Models;
 
 namespace UniShop.Data
@@ -12,7 +7,7 @@ namespace UniShop.Data
     {
         public UniShopDbContext() : base("DBConnect")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Footer> Footers { set; get; }
@@ -38,7 +33,6 @@ namespace UniShop.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-         
         }
     }
 }
