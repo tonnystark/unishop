@@ -8,7 +8,7 @@ using UniShop.Model.Models;
 
 namespace UniShop.Data.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepository<Product>
     {
     }
 
@@ -17,6 +17,7 @@ namespace UniShop.Data.Repositories
         public ProductRepository(IDbFactory dbFactory) : base(dbFactory)
         {
         }
+       
     }
 
 }
