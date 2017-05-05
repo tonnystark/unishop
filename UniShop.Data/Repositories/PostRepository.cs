@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UniShop.Data.Infrastructure;
 using UniShop.Model.Models;
-using System.Linq;
 
 namespace UniShop.Data.Repositories
 {
@@ -19,15 +19,15 @@ namespace UniShop.Data.Repositories
         public IEnumerable<Post> GetAllByTagPaging(string tag, int pageIndex, int pageSize, out int totalRow)
         {
             var query = from p in DbContext.Posts
-                        join pt in DbContext.PostTags
-                            on p.ID equals pt.PostID
-                        where pt.TagID == tag && p.Status
-                        orderby p.CreatedDate descending 
-                        select p;
+                join pt in DbContext.PostTags
+                    on p.ID equals pt.PostID
+                where pt.TagID == tag && p.Status
+                orderby p.CreatedDate descending
+                select p;
             totalRow = query.Count();
 
             // lấy item theo trang
-            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            query = query.Skip((pageIndex - 1)*pageSize).Take(pageSize);
 
             return query;
         }

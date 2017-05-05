@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace UniShop.Data.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class adderror : DbMigration
     {
         public override void Up()
@@ -10,16 +9,15 @@ namespace UniShop.Data.Migrations
             CreateTable(
                 "dbo.Errors",
                 c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Message = c.String(),
-                        StackTrace = c.String(),
-                        CreatedDate = c.DateTime(nullable: false),
-                    })
+                {
+                    ID = c.Int(false, true),
+                    Message = c.String(),
+                    StackTrace = c.String(),
+                    CreatedDate = c.DateTime(false)
+                })
                 .PrimaryKey(t => t.ID);
-            
         }
-        
+
         public override void Down()
         {
             DropTable("dbo.Errors");

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using UniShop.Data.Infrastructure;
@@ -12,10 +11,10 @@ namespace UniShop.UnitTest.ServiceTest
     [TestClass]
     public class PostCategortyServiceTest
     {
-        private Mock<IPostCategoryRepository> _mockRepository;
-        private Mock<IUnitOfWork> _mockUnitOfWork;
         private IPostCategoryService _categoryService;
         private List<PostCategory> _listCategories;
+        private Mock<IPostCategoryRepository> _mockRepository;
+        private Mock<IUnitOfWork> _mockUnitOfWork;
 
 
         [TestInitialize]
@@ -24,20 +23,18 @@ namespace UniShop.UnitTest.ServiceTest
             _mockRepository = new Mock<IPostCategoryRepository>();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
             _categoryService = new PostCategoryService(_mockRepository.Object, _mockUnitOfWork.Object);
-            _listCategories = new List<PostCategory>()
+            _listCategories = new List<PostCategory>
             {
-                new PostCategory() {ID =1 ,Name="DM1",Status=true },
-                new PostCategory() {ID =2 ,Name="DM2",Status=true },
-                new PostCategory() {ID =3 ,Name="DM3",Status=true },
+                new PostCategory {ID = 1, Name = "DM1", Status = true},
+                new PostCategory {ID = 2, Name = "DM2", Status = true},
+                new PostCategory {ID = 3, Name = "DM3", Status = true}
             };
-
-
         }
 
         [TestMethod]
         public void PostCategortyService_Create()
         {
-            PostCategory category = new PostCategory();
+            var category = new PostCategory();
             category.Name = "Test";
             category.Alias = "test";
             category.Status = true;

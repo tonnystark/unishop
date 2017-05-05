@@ -1,9 +1,10 @@
 ﻿using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using UniShop.Model.Models;
 
 namespace UniShop.Data
 {
-    public class UniShopDbContext : DbContext
+    public class UniShopDbContext : IdentityDbContext<ApplicationUser>
     {
         public UniShopDbContext() : base("DBConnect")
         {
@@ -31,8 +32,15 @@ namespace UniShop.Data
         public DbSet<Error> Errors { set; get; }
         public DbSet<VisitorStatistic> VisitorStatistics { set; get; }
 
+        public static UniShopDbContext Create()
+        {
+            return new UniShopDbContext();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<IdentityUserRole>().HasKey(u => new {u.UserId, u.RoleId});
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(u => u.UserId);
         }
     }
 }

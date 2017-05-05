@@ -12,14 +12,19 @@ namespace UniShop.Web.Infrastructure.Core
 {
     public class ApiControllerBase : ApiController
     {
-        IErrorService _errorService;
-     
+        private readonly IErrorService _errorService;
+
+        //public ApiControllerBase()
+        //{
+
+        //}
         public ApiControllerBase(IErrorService errorService)
         {
-            this._errorService = errorService;
+            _errorService = errorService;
         }
 
-        protected HttpResponseMessage CreateHttpResponse(HttpRequestMessage requestMessage, Func<HttpResponseMessage> function)
+        protected HttpResponseMessage CreateHttpResponse(HttpRequestMessage requestMessage,
+            Func<HttpResponseMessage> function)
         {
             HttpResponseMessage response = null;
             try
@@ -55,12 +60,11 @@ namespace UniShop.Web.Infrastructure.Core
         }
 
 
-
-        void LogError(Exception ex)
+        private void LogError(Exception ex)
         {
             try
             {
-                Error error = new Error();
+                var error = new Error();
                 error.CreatedDate = DateTime.Now;
                 error.Message = ex.Message;
                 error.StackTrace = ex.StackTrace;
@@ -70,7 +74,6 @@ namespace UniShop.Web.Infrastructure.Core
             }
             catch
             {
-
             }
         }
     }

@@ -24,7 +24,7 @@ namespace UniShop.UnitTest
         [TestMethod]
         public void PostCategortyRepository_Create()
         {
-            PostCategory category = new PostCategory();
+            var category = new PostCategory();
             category.Name = "Test";
             category.Alias = "Test";
             category.Status = true;

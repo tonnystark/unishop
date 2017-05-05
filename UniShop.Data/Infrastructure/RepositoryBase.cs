@@ -109,16 +109,16 @@ namespace UniShop.Data.Infrastructure
                 var query = dataContext.Set<T>().Include(includes.First());
                 foreach (var include in includes.Skip(1))
                     query = query.Include(include);
-                return query.Where<T>(predicate).AsQueryable<T>();
+                return query.Where(predicate).AsQueryable();
             }
 
-            return dataContext.Set<T>().Where<T>(predicate).AsQueryable<T>();
+            return dataContext.Set<T>().Where(predicate).AsQueryable();
         }
 
         public virtual IEnumerable<T> GetMultiPaging(Expression<Func<T, bool>> predicate, out int total, int index = 0,
             int size = 20, string[] includes = null)
         {
-            var skipCount = index * size;
+            var skipCount = index*size;
             IQueryable<T> _resetSet;
 
             //HANDLE INCLUDES FOR ASSOCIATED OBJECTS IF APPLICABLE
@@ -127,12 +127,12 @@ namespace UniShop.Data.Infrastructure
                 var query = dataContext.Set<T>().Include(includes.First());
                 foreach (var include in includes.Skip(1))
                     query = query.Include(include);
-                _resetSet = predicate != null ? query.Where<T>(predicate).AsQueryable() : query.AsQueryable();
+                _resetSet = predicate != null ? query.Where(predicate).AsQueryable() : query.AsQueryable();
             }
             else
             {
                 _resetSet = predicate != null
-                    ? dataContext.Set<T>().Where<T>(predicate).AsQueryable()
+                    ? dataContext.Set<T>().Where(predicate).AsQueryable()
                     : dataContext.Set<T>().AsQueryable();
             }
 
