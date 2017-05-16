@@ -4,4 +4,4 @@
     function productListController() {
 
     }
-})(angular.module('tedushop.products'));
+})(angular.module('unishop.products'));

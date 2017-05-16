@@ -2,7 +2,7 @@
 using UniShop.Model.Models;
 using UniShop.Web.Models;
 
-namespace UniShop.Web.Mappings
+namespace UniShop.Web.Mappings 
 {
     public class AutoMapperConfiguration
     {
@@ -14,6 +14,9 @@ namespace UniShop.Web.Mappings
                 cfg.CreateMap<Tag, TagViewModel>();
                 cfg.CreateMap<PostCategory,
                     PostCategoryViewModel>();
+                cfg.CreateMap<ProductCategory, ProductCategoryViewModel>();
+                cfg.CreateMap<Product, ProductViewModel>();
+                cfg.CreateMap<ProductTag, ProductTagViewModel>();
             });
         }
     }
