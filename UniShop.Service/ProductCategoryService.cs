@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UniShop.Data.Infrastructure;
 using UniShop.Data.Repositories;
 using UniShop.Model.Models;
@@ -11,6 +12,9 @@ namespace UniShop.Service
         void Update(ProductCategory ProductCategory);
         ProductCategory Delete(int id);
         IEnumerable<ProductCategory> GetAll();
+
+        IEnumerable<ProductCategory> GetAll(string keyword);
+
         IEnumerable<ProductCategory> GetAllByParentId(int parentId);
         ProductCategory GetById(int id);
 
@@ -48,6 +52,15 @@ namespace UniShop.Service
             return _productCategoryRepository.GetAll();
         }
 
+        public IEnumerable<ProductCategory> GetAll(string keyword)
+        {
+            if (!string.IsNullOrEmpty(keyword))
+                return
+                    _productCategoryRepository.GetMulti(x => x.Name.Contains(keyword) || x.Description.Contains(keyword));
+
+            return _productCategoryRepository.GetAll();
+        }
+
         public IEnumerable<ProductCategory> GetAllByParentId(int parentId)
         {
             return _productCategoryRepository.GetMulti(p => p.Status && p.ParentID == parentId);
@@ -62,5 +75,7 @@ namespace UniShop.Service
         {
             _unitOfWork.Commit();
         }
+
+
     }
 }

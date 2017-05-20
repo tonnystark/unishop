@@ -1,24 +1,51 @@
 ﻿(function (app) {
     app.controller('productCategoryListController', productCategoryListController);
 
-    productCategoryListController.$inject = ['$scope', 'apiService'];
+    productCategoryListController.$inject = ['$scope', 'apiService', 'notificationService'];
 
-    function productCategoryListController($scope, apiService) {
+    function productCategoryListController($scope, apiService, notificationService) {
         $scope.productCategories = [];
-        $scope.getProductCategories = getProductCategories;
+        $scope.page = 0;
+        $scope.pagesCount = 0;
+        $scope.getProductCatgories = getProductCatgories;
+        $scope.keywords = '';
 
-        function getProductCategories() {
+        $scope.search = search;
+
+        function search() {
+            getProductCatgories();
+        }
+
+        function getProductCatgories(page) {
+            page = page || 0;
+
+            var config = {
+                params: {
+                    page: page,
+                    pageSize: 2,
+                    keyword: $scope.keywords
+                }
+            }
+
             apiService.get('/api/productcategory/getall',
-                null,
-                function(response) {
-                    $scope.productCategories = response.data;
+                config,
+                function (result) {
+
+                    if (result.data.TotalCount == 0) {
+                        notificationService.displayWarning('Không tìm thấy bản ghi nào');
+                    }
+
+                    $scope.productCategories = result.data.Items;
+                    $scope.page = result.data.Page;
+                    $scope.pagesCount = result.data.TotalPages;
+                    $scope.totalCount = result.data.TotalCount;
                 },
-                function (response) {
-                    Console.log(response.statusText);
+                function () {
+                    console.log('Load productcategory failed.');
                 });
         }
 
-        $scope.getProductCategories();
+        $scope.getProductCatgories();
 
     }
 })(angular.module('unishop.product_categories'));
