@@ -1,29 +1,29 @@
 ﻿/// <reference path="pagerDirective.html" />
-(function (app) {
-    'use strict';
-    app.directive('pagerDirective', pagerDirective);
+(function(app) {
+    "use strict";
+    app.directive("pagerDirective", pagerDirective);
 
     function pagerDirective() {
         return {
             scope: {
-                page: '@',
-                pagesCount: '@',
-                totalCount: '@',
-                searchFunc: '&',
-                customPath: '@'
+                page: "@",
+                pagesCount: "@",
+                totalCount: "@",
+                searchFunc: "&",
+                customPath: "@"
             },
             replace: true,
-            restrict: 'E',
-            templateUrl: '/app/share/directives/pagerDirective.html',
+            restrict: "E",
+            templateUrl: "/app/share/directives/pagerDirective.html",
             controller: [
-                '$scope', function ($scope) {
-                    $scope.search = function (i) {
+                "$scope", function($scope) {
+                    $scope.search = function(i) {
                         if ($scope.searchFunc) {
                             $scope.searchFunc({ page: i });
                         }
                     };
 
-                    $scope.range = function () {
+                    $scope.range = function() {
                         if (!$scope.pagesCount) {
                             return [];
                         }
@@ -44,9 +44,10 @@
 
                     $scope.pagePlus = function(count) {
                         return +$scope.page + count;
-                    }
-                }]
-        }
+                    };
+                }
+            ]
+        };
     }
 
-})(angular.module('unishop.common'));
+})(angular.module("unishop.common"));

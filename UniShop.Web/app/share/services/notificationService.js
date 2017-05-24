@@ -1,5 +1,5 @@
 ﻿(function(app) {
-    app.factory('notificationService', notificationService);
+    app.factory("notificationService", notificationService);
 
     function notificationService() {
         toastr.options = {
@@ -38,8 +38,7 @@
             displayError: displayError,
             displayWarning: displayWarning,
             displayInfo: displayInfo
-        }
-
+        };
     }
 
-})(angular.module('unishop.common'));
+})(angular.module("unishop.common"));

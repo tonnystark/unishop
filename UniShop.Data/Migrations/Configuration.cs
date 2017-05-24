@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using UniShop.Model.Models;
 
 namespace UniShop.Data.Migrations
@@ -19,7 +16,7 @@ namespace UniShop.Data.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-          /*  var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UniShopDbContext()));
+            /*  var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UniShopDbContext()));
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new UniShopDbContext()));
 
@@ -44,24 +41,22 @@ namespace UniShop.Data.Migrations
 
             manager.AddToRoles(adminUser.Id, "Admin", "User"); */
             CreateProductCategorySample(context);
-
         }
 
         private void CreateProductCategorySample(UniShopDbContext context)
         {
             if (context.ProductCategories.Count() == 0)
             {
-                List<ProductCategory> listProductCategory = new List<ProductCategory>()
-            {
-                new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
-                 new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
-                  new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
-                   new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
-            };
+                var listProductCategory = new List<ProductCategory>
+                {
+                    new ProductCategory {Name = "Điện lạnh", Alias = "dien-lanh", Status = true},
+                    new ProductCategory {Name = "Viễn thông", Alias = "vien-thong", Status = true},
+                    new ProductCategory {Name = "Đồ gia dụng", Alias = "do-gia-dung", Status = true},
+                    new ProductCategory {Name = "Mỹ phẩm", Alias = "my-pham", Status = true}
+                };
                 context.ProductCategories.AddRange(listProductCategory);
                 context.SaveChanges();
             }
-
         }
     }
 }

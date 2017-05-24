@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace UniShop.Web.Models
 {
@@ -8,7 +9,7 @@ namespace UniShop.Web.Models
         public int ID { set; get; }
         public string Name { set; get; }
 
-
+        [Required]
         public string Alias { set; get; }
         public string Description { set; get; }
 

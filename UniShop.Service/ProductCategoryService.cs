@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UniShop.Data.Infrastructure;
 using UniShop.Data.Repositories;
 using UniShop.Model.Models;
@@ -26,7 +25,8 @@ namespace UniShop.Service
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductCategoryService(IProductCategoryRepository productCategoryRepositoryCategoryRepository, IUnitOfWork unitOfWork)
+        public ProductCategoryService(IProductCategoryRepository productCategoryRepositoryCategoryRepository,
+            IUnitOfWork unitOfWork)
         {
             _productCategoryRepository = productCategoryRepositoryCategoryRepository;
             _unitOfWork = unitOfWork;
@@ -75,7 +75,5 @@ namespace UniShop.Service
         {
             _unitOfWork.Commit();
         }
-
-
     }
 }

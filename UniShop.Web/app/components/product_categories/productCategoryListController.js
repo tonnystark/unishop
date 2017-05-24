@@ -1,14 +1,14 @@
-﻿(function (app) {
-    app.controller('productCategoryListController', productCategoryListController);
+﻿(function(app) {
+    app.controller("productCategoryListController", productCategoryListController);
 
-    productCategoryListController.$inject = ['$scope', 'apiService', 'notificationService'];
+    productCategoryListController.$inject = ["$scope", "apiService", "notificationService"];
 
     function productCategoryListController($scope, apiService, notificationService) {
         $scope.productCategories = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
         $scope.getProductCatgories = getProductCatgories;
-        $scope.keywords = '';
+        $scope.keywords = "";
 
         $scope.search = search;
 
@@ -25,14 +25,13 @@
                     pageSize: 2,
                     keyword: $scope.keywords
                 }
-            }
-
-            apiService.get('/api/productcategory/getall',
+            };
+            apiService.get("/api/productcategory/getall",
                 config,
-                function (result) {
+                function(result) {
 
                     if (result.data.TotalCount == 0) {
-                        notificationService.displayWarning('Không tìm thấy bản ghi nào');
+                        notificationService.displayWarning("Không tìm thấy bản ghi nào");
                     }
 
                     $scope.productCategories = result.data.Items;
@@ -40,12 +39,12 @@
                     $scope.pagesCount = result.data.TotalPages;
                     $scope.totalCount = result.data.TotalCount;
                 },
-                function () {
-                    console.log('Load productcategory failed.');
+                function() {
+                    console.log("Load productcategory failed.");
                 });
         }
 
         $scope.getProductCatgories();
 
     }
-})(angular.module('unishop.product_categories'));
+})(angular.module("unishop.product_categories"));

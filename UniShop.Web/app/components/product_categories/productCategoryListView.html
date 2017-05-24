@@ -1,11 +1,15 @@
-﻿  <!-- Content Header (Page header) -->
+﻿<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
         Danh mục sản phẩm
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">Sản phẩm</a></li>
+        <li>
+            <a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a>
+        </li>
+        <li>
+            <a href="#">Sản phẩm</a>
+        </li>
         <li class="active">Danh mục sản phẩm</li>
     </ol>
 </section>
@@ -16,8 +20,12 @@
         <div class="box-header with-border">
             <h3 class="box-title">Danh mục sản phẩm</h3>
             <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
         </div>
         <div class="box-body">
@@ -29,6 +37,9 @@
                             <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
                         </span>
                     </div><!-- /input-group -->
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-success" ui-sref="add_product_categories">Thêm mới</button>
                 </div>
             </div>
             <div class="row">
@@ -48,16 +59,21 @@
                                     <td>{{item.ID}}</td>
                                     <td>{{item.Name}}</td>
                                     <td>{{item.CreatedDate | date: "dd/MM/yyyy"}}</td>
-                                    <td><span ng-class="{'badge bg-red':item.Status == false, 'badge bg-green':item.Status}">{{item.Status | statusFilter}}</span></td>
                                     <td>
-                                        <button class="btn btn-primary"><i class="fa fa-pencil"></i></button>
-                                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                        <span ng-class="{'badge bg-red':item.Status == false, 'badge bg-green':item.Status}">{{item.Status | statusFilter}}</span></td>
+                                    <td>
+                                        <button class="btn btn-primary" ui-sref="update_product_categories({id:item.ID})">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tfoot>
-                                    <tr>
-                                        <td colspan="5">Tổng số bản ghi: {{totalCount}}</td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="5">Tổng số bản ghi: {{totalCount}}</td>
+                                </tr>
                                 </tfoot>
                             </table>
                         </div>

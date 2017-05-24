@@ -1,3 +1,3 @@
 ﻿(function() {
-    angular.module('unishop.common', ['ui.router'])
+    angular.module("unishop.common", ["ui.router"]);
 })();

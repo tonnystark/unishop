@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace UniShop.Web.Infrastructure.Core
 {
@@ -11,7 +9,7 @@ namespace UniShop.Web.Infrastructure.Core
 
         public int Count
         {
-            get { return (Items != null) ? Items.Count() : 0; }
+            get { return Items != null ? Items.Count() : 0; }
         }
 
         public int TotalPages { get; set; }

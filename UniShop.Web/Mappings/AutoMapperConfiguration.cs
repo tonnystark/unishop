@@ -2,7 +2,7 @@
 using UniShop.Model.Models;
 using UniShop.Web.Models;
 
-namespace UniShop.Web.Mappings 
+namespace UniShop.Web.Mappings
 {
     public class AutoMapperConfiguration
     {

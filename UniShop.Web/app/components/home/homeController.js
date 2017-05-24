@@ -1,7 +1,7 @@
 ﻿(function(app) {
-    app.controller('homeController', homeController);
+    app.controller("homeController", homeController);
 
     function homeController() {
-        
+
     }
-})(angular.module('unishop'));
+})(angular.module("unishop"));

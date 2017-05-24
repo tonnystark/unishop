@@ -1,7 +1,7 @@
-﻿(function (app) {
-    app.controller('productListController', productListController);
+﻿(function(app) {
+    app.controller("productListController", productListController);
 
     function productListController() {
 
     }
-})(angular.module('unishop.products'));
+})(angular.module("unishop.products"));

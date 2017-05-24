@@ -1,8 +1,8 @@
 ﻿(function(app) {
-    app.filter('statusFilter',
+    app.filter("statusFilter",
         function() {
             return function(status) {
-                return status? 'Kích hoạt' : 'Khoá';
-            }
+                return status ? "Kích hoạt" : "Khoá";
+            };
         });
-})(angular.module('unishop.common'));
+})(angular.module("unishop.common"));

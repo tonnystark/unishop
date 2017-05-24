@@ -1,7 +1,7 @@
-﻿(function (app) {
-    app.controller('productAddController', productAddController);
+﻿(function(app) {
+    app.controller("productAddController", productAddController);
 
     function productAddController() {
 
     }
-})(angular.module('unishop.products'));
+})(angular.module("unishop.products"));
