@@ -45,6 +45,34 @@ namespace UniShop.Web.Infrastructure.Extensions
             productCategory.Status = productCategoryVm.Status;
         }
 
+        public static void UpdateProduct(this Product product, ProductViewModel productVm)
+        {
+            product.ID = productVm.ID;
+            product.CategoryID = productVm.CategoryID;
+            product.Name = productVm.Name;
+            product.Description = productVm.Description;
+            product.Alias = productVm.Alias;
+            product.Price = productVm.Price;
+            product.PromotionPrice = productVm.PromotionPrice;
+
+            product.Image = productVm.Image;
+            product.HomeFlag = productVm.HomeFlag;
+            product.MoreImages = productVm.MoreImages;
+            product.Warranty = productVm.Warranty;
+
+            product.CreatedDate = productVm.CreatedDate;
+            product.CreatedBy = productVm.CreatedBy;
+            product.UpdatedDate = productVm.UpdatedDate;
+            product.UpdatedBy = productVm.UpdatedBy;
+            product.MetaKeyword = productVm.MetaKeyword;
+            product.MetaDescription = productVm.MetaDescription;
+            product.Status = productVm.Status;
+            product.HotFlag = productVm.HotFlag;
+            product.ViewCount = productVm.ViewCount;
+            product.Content = productVm.Content;
+            product.Tags = productVm.Tags;
+
+        }
         public static void UpdatePost(this Post post, PostViewModel postVm)
         {
             post.ID = postVm.ID;

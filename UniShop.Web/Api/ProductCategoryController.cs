@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using AutoMapper;
 using UniShop.Model.Models;
 using UniShop.Service;
@@ -110,10 +111,6 @@ namespace UniShop.Web.Api
                 return response;
             });
 
-
-
-
-
         }
 
 
@@ -146,6 +143,63 @@ namespace UniShop.Web.Api
                 return response;
             });
 
+        }
+
+        [Route("delete")]
+        [HttpDelete]
+        [AllowAnonymous]
+        public HttpResponseMessage Delete(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (ModelState.IsValid)
+                {
+                    var oldProductCategory = _productCategoryService.Delete(id);
+                    _productCategoryService.SaveChanges();
+
+                    var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(oldProductCategory);
+
+                    response = request.CreateResponse(HttpStatusCode.OK, responseData);
+                }
+                else
+                {
+                    response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+
+
+                return response;
+            });
+        }
+
+        [Route("deletemulti")]
+        [HttpDelete]
+        [AllowAnonymous]
+        public HttpResponseMessage DeleteAll(HttpRequestMessage request, string checkedProductCategories)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (ModelState.IsValid)
+                {
+                    var listProductCategory = new JavaScriptSerializer().Deserialize<List<int>>(checkedProductCategories);
+                    foreach (var id in listProductCategory)
+                    {
+                        _productCategoryService.Delete(id);
+                    }
+                   
+                    _productCategoryService.SaveChanges();
+                    
+
+                    response = request.CreateResponse(HttpStatusCode.OK, listProductCategory.Count);
+                }
+                else
+                {
+                    response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+
+                return response;
+            });
         }
 
     }

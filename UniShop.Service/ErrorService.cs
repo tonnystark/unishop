@@ -10,7 +10,7 @@ namespace UniShop.Service
         void Save();
     }
 
-    internal class ErrorService : IErrorService
+    public class ErrorService : IErrorService
     {
         private readonly IErrorRepository _errorRepository;
         private readonly IUnitOfWork _unitOfWork;

@@ -46,6 +46,8 @@ namespace UniShop.Web.Models
 
         public bool Status { set; get; }
 
+        public string Tags { get; set; }
+
         public virtual ProductCategoryViewModel ProductCategory { set; get; }
     }
 }

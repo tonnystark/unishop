@@ -80,6 +80,10 @@
     <Compile Include="Migrations\201705020319397_add-aspNetidentity.Designer.cs">
       <DependentUpon>201705020319397_add-aspNetidentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705310407085_add-product-tag.cs" />
+    <Compile Include="Migrations\201705310407085_add-product-tag.Designer.cs">
+      <DependentUpon>201705310407085_add-product-tag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ErrorRepository.cs" />
@@ -128,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705020319397_add-aspNetidentity.resx">
       <DependentUpon>201705020319397_add-aspNetidentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705310407085_add-product-tag.resx">
+      <DependentUpon>201705310407085_add-product-tag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
