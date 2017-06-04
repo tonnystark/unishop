@@ -15,6 +15,7 @@ using UniShop.Web.Models;
 namespace UniShop.Web.Api
 {
     [RoutePrefix("api/productcategory")]
+    [Authorize]
     public class ProductCategoryController : ApiControllerBase
     {
         private readonly IProductCategoryService _productCategoryService;
@@ -94,7 +95,8 @@ namespace UniShop.Web.Api
                 {
                     var newProductCategory = new ProductCategory();
                     newProductCategory.UpdateProductCategory(productCategoryViewModel);
-
+                    newProductCategory.CreatedBy = User.Identity.Name;
+                    newProductCategory.CreatedDate = DateTime.Now;
                     _productCategoryService.Add(newProductCategory);
                     _productCategoryService.SaveChanges();
 
@@ -127,7 +129,8 @@ namespace UniShop.Web.Api
 
                     dbProductCategory.UpdateProductCategory(productCategoryViewModel);
                     dbProductCategory.UpdatedDate = DateTime.Now;
-
+                    dbProductCategory.UpdatedBy = User.Identity.Name;
+                   
                     _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.SaveChanges();
 

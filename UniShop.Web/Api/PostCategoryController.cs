@@ -12,6 +12,7 @@ using UniShop.Web.Models;
 namespace UniShop.Web.Api
 {
     [RoutePrefix("api/postcategory")]
+    [Authorize]
     public class PostCategoryController : ApiControllerBase
     {
         private readonly IPostCategoryService _postCategoryService;

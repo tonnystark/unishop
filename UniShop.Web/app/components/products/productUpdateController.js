@@ -14,6 +14,18 @@
             height: '200px'
         }
 
+        $scope.moreImages = []; 
+        $scope.chooseMoreImage = function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.$apply(function () {
+                    $scope.moreImages.push(fileUrl);
+                });
+
+            }
+            finder.popup();
+        };
+
         $scope.chooseImage = function () {
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
@@ -32,6 +44,7 @@
         $scope.updateProduct = updateProduct;
 
         function updateProduct() {
+            $scope.product.MoreImages = JSON.stringify($scope.moreImages);
             apiService.post('/api/product/update',
                 $scope.product,
                 function (result) {
@@ -48,6 +61,7 @@
                 null,
                 function (result) {
                     $scope.product = result.data;
+                    $scope.moreImages = JSON.parse($scope.product.MoreImages);
                 }, function (error) {
                     console.log(error.data);
                 });
