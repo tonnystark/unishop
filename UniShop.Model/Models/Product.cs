@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using UniShop.Model.Abstract;
 
@@ -45,7 +46,12 @@ namespace UniShop.Model.Models
         [MaxLength(256)]
         public string Tags { get; set; }
 
+        public decimal OriginalPrice { get; set; }
+        public int Quantity { get; set; }
+
         [ForeignKey("CategoryID")]
         public virtual ProductCategory ProductCategory { set; get; }
+
+        public virtual IEnumerable<ProductTag> ProductTags { get; set; }
     }
 }

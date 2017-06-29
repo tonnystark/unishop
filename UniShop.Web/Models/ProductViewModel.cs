@@ -2,6 +2,7 @@
 
 namespace UniShop.Web.Models
 {
+    [Serializable]
     public class ProductViewModel
     {
         public int ID { set; get; }
@@ -47,6 +48,8 @@ namespace UniShop.Web.Models
         public bool Status { set; get; }
 
         public string Tags { get; set; }
+        public int Quantity { get; set; }
+        public decimal OriginalPrice { get; set; }
 
         public virtual ProductCategoryViewModel ProductCategory { set; get; }
     }

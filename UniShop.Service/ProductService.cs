@@ -17,10 +17,28 @@ namespace UniShop.Service
         Product Delete(int id);
         IEnumerable<Product> GetAll();
 
-        IEnumerable<Product> GetAll(string keyword);
-     
         Product GetById(int id);
+        IEnumerable<Product> GetAll(string keyword);
 
+        IEnumerable<Product> GetLastest(int top);
+
+        IEnumerable<Product> GetHotProduct(int top);
+        IEnumerable<Product> GetListProductByCategoryIdPaging(int cateId, int page, int pageSize, string sort, out int totalRow);
+
+        IEnumerable<Product> Search(string keyword, int page, int pageSize, string sort, out int totalRow);
+
+        IEnumerable<Product> GetReatedProducts(int id, int top);
+
+        IEnumerable<string> GetProductByName(string name);
+        IEnumerable<Tag> GetListTagByProductId(int id);
+
+        Tag GetTag(string tagId);
+
+        void IncreaseView(int id);
+
+        IEnumerable<Product> GetListProductByTag(string tagId, int page, int pagesize, string sort, out int totalRow);
+
+        bool SellProduct(int productId, int quantity);
         void SaveChanges();
     }
     public class ProductService : IProductService
@@ -120,14 +138,139 @@ namespace UniShop.Service
             return _productRepository.GetAll();
         }
 
+        public IEnumerable<Product> GetLastest(int top)
+        {
+            return _productRepository.GetMulti(x => x.Status).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Product> GetHotProduct(int top)
+        {
+            return _productRepository.GetMulti(x => x.Status && x.HotFlag == true).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
         public Product GetById(int id)
         {
             return _productRepository.GetSingleById(id);
         }
 
+        public bool SellProduct(int productId, int quantity)
+        {
+            var product = _productRepository.GetSingleById(productId);
+            if (product.Quantity < quantity)
+                return false;
+            product.Quantity -= quantity;
+            return true;
+        }
+
         public void SaveChanges()
         {
             _unitOfWork.Commit();
+        }
+
+        public IEnumerable<Product> GetListProductByCategoryIdPaging(int cateId, int page, int pageSize, string sort, out int totalRow)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.CategoryID == cateId);
+
+            switch (sort)
+            {
+                case "popular":
+                    query = query.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "discount":
+                    query = query.OrderByDescending(x => x.PromotionPrice.HasValue);
+                    break;
+                case "price":
+                    query = query.OrderBy(x => x.Price);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreatedDate);
+                    break;
+            }
+
+            totalRow = query.Count();
+
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        public IEnumerable<Product> GetReatedProducts(int id, int top)
+        {
+            var product = _productRepository.GetSingleById(id);
+            return
+                _productRepository.GetMulti(x => x.Status && x.ID != id && x.CategoryID == product.CategoryID)
+                    .OrderByDescending(x => x.CreatedDate)
+                    .Take(top);
+        }
+
+        public IEnumerable<String> GetProductByName(string name)
+        {
+            return _productRepository.GetMulti(x => x.Status && x.Name.Contains(name)).Select(x => x.Name);
+        }
+
+        public IEnumerable<Product> Search(string keyword, int page, int pageSize, string sort, out int totalRow)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.Name.Contains(keyword));
+
+            switch (sort)
+            {
+                case "popular":
+                    query = query.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "discount":
+                    query = query.OrderByDescending(x => x.PromotionPrice.HasValue);
+                    break;
+                case "price":
+                    query = query.OrderBy(x => x.Price);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreatedDate);
+                    break;
+            }
+
+            totalRow = query.Count();
+
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        public IEnumerable<Tag> GetListTagByProductId(int id)
+        {
+            return _productTagRepository.GetMulti(x => x.ProductID == id, new string[] { "Tag" }).Select(x => x.Tag);
+        }
+
+        public Tag GetTag(string tagId)
+        {
+            return _tagRepository.GetSingleByCondition(x => x.ID == tagId);
+        }
+
+        public void IncreaseView(int id)
+        {
+            var product = _productRepository.GetSingleById(id);
+            if (product.ViewCount.HasValue)
+                product.ViewCount++;
+            else
+                product.ViewCount = 1;
+        }
+
+        public IEnumerable<Product> GetListProductByTag(string tagId, int page, int pagesize, string sort, out int totalRow)
+        {
+
+            var query = _productRepository.GetListProductByTag(tagId, page, pagesize, out totalRow);
+            switch (sort)
+            {
+                case "popular":
+                    query = query.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "discount":
+                    query = query.OrderByDescending(x => x.PromotionPrice.HasValue);
+                    break;
+                case "price":
+                    query = query.OrderBy(x => x.Price);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreatedDate);
+                    break;
+            }
+
+            return query;
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model UniShop.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+<div class="account_grid">
+    <div class=" login-right">
+        <h3>Đăng ký thành viên</h3>
+        <p>Nếu bạn đã có tài khoản xin vui lòng đăng nhập</p>
+        @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+        {
+
+            @Html.ValidationSummary(false, "", new { @class = "error" })
+            <div>
+                <span>Địa chỉ email<label>*</label></span>
+                @Html.TextBoxFor(m => m.UserName)
+            </div>
+            <div>
+                <span>Mật khẩu<label>*</label></span>
+                @Html.PasswordFor(p => p.Password)
+            </div>
+            <div>
+                @Html.CheckBoxFor(p => p.RememberMe)
+                Nhớ tài khoản
+            </div>
+            <a class="forgot" href="#">Quên mật khẩu</a>
+            <input type="submit" value="Login">
+        }
+
+
+    </div>
+    <div class=" login-left">
+        <h3>Thông báo</h3>
+        <p>
+            Khi bạn đăng ký thành viên, bạn sẽ mua sắm nhanh hơn, kiểm tra đơn hàng một cách dễ dàng, thanh toán trực tuyến và hưởng các chế độ ưu đãi đặc biệt dành riêng cho bạn.
+        </p>
+        <a class="acount-btn" href="/dang-ky.html">Tạo tài khoản</a>
+    </div>
+    <div class="clearfix"> </div>
+</div>

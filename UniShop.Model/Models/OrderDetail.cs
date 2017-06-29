@@ -14,6 +14,8 @@ namespace UniShop.Model.Models
 
         public int Quantity { get; set; }
 
+        public decimal Price { get; set; }
+
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }
 

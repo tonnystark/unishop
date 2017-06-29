@@ -31,6 +31,12 @@ namespace UniShop.Data
         public DbSet<Tag> Tags { set; get; }
         public DbSet<Error> Errors { set; get; }
         public DbSet<VisitorStatistic> VisitorStatistics { set; get; }
+        public DbSet<ContactDetail> ContactDetails { get; set; }
+        public DbSet<FeedBack> FeedBacks { get; set; }
+        public DbSet<ApplicationGroup> ApplicationGroups { get; set; }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public DbSet<ApplicationRoleGroup> ApplicationRoleGroups { get; set; }
+        public DbSet<ApplicationUserGroup> ApplicationUserGroups { get; set; }
 
         public static UniShopDbContext Create()
         {
@@ -39,8 +45,10 @@ namespace UniShop.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<IdentityUserRole>().HasKey(u => new {u.UserId, u.RoleId});
-            modelBuilder.Entity<IdentityUserLogin>().HasKey(u => u.UserId);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(u => new { u.UserId, u.RoleId }).ToTable("ApplicationUserRoles");
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(u => u.UserId).ToTable("ApplicationUserLogins");
+            modelBuilder.Entity<IdentityRole>().ToTable("ApplicationRoles");
+            modelBuilder.Entity<IdentityUserClaim>().HasKey(i => i.UserId).ToTable("ApplicationUserClaims");
         }
     }
 }

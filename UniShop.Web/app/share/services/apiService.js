@@ -8,7 +8,8 @@
         return {
             get: get,
             post: post,
-            del: del
+            del: del,
+            put: put
         };
 
         function get(url, params, success, failure) {
@@ -37,6 +38,21 @@
                 });
         }
 
+        function put(url, data, success, failure) {
+            authenticationService.setHeader();
+            $http.put(url, data)
+                .then(function (result) {
+                    success(result);
+                }, function (error) {
+                    console.log(error.status);
+                    if (error.status === 401) {
+                        notificationService.displayError('Authenticate is required.');
+                    }
+                    else if (failure != null) {
+                        failure(error);
+                    }
+                });
+        }
         function del(url, data, success, failure) {
             authenticationService.setHeader();
             $http.delete(url, data)

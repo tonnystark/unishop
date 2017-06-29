@@ -14,6 +14,7 @@ namespace UniShop.Web.Infrastructure.Core
 
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }
+        public int MaxPages { get; set; }
         public IEnumerable<T> Items { get; set; }
     }
 }

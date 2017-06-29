@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 
 namespace UniShop.Web
 {
@@ -10,11 +12,15 @@ namespace UniShop.Web
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings();
+
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             config.Routes.MapHttpRoute(
                 "DefaultApi",
                 "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
+                new { id = RouteParameter.Optional }
                 );
         }
     }

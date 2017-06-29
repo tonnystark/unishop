@@ -5,6 +5,9 @@
         [
             "unishop.products",
             "unishop.product_categories",
+            "unishop.application_groups",
+            "unishop.application_roles",
+            "unishop.application_users",
             "unishop.common"
         ])
         .config(config)

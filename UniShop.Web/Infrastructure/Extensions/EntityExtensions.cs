@@ -1,4 +1,7 @@
-﻿using UniShop.Model.Models;
+﻿using System;
+using System.Collections.Generic;
+using AutoMapper;
+using UniShop.Model.Models;
 using UniShop.Web.Models;
 
 namespace UniShop.Web.Infrastructure.Extensions
@@ -43,6 +46,7 @@ namespace UniShop.Web.Infrastructure.Extensions
             productCategory.MetaKeyword = productCategoryVm.MetaKeyword;
             productCategory.MetaDescription = productCategoryVm.MetaDescription;
             productCategory.Status = productCategoryVm.Status;
+
         }
 
         public static void UpdateProduct(this Product product, ProductViewModel productVm)
@@ -71,7 +75,8 @@ namespace UniShop.Web.Infrastructure.Extensions
             product.ViewCount = productVm.ViewCount;
             product.Content = productVm.Content;
             product.Tags = productVm.Tags;
-
+            product.Quantity = productVm.Quantity;
+            product.OriginalPrice = productVm.OriginalPrice;
         }
         public static void UpdatePost(this Post post, PostViewModel postVm)
         {
@@ -93,5 +98,55 @@ namespace UniShop.Web.Infrastructure.Extensions
             post.MetaDescription = postVm.MetaDescription;
             post.Status = postVm.Status;
         }
+
+        public static void UpdateFeedBack(this FeedBack feedback, FeedBackViewModel feedbackVm)
+        {
+            feedback.Name = feedbackVm.Name;
+            feedback.Email = feedbackVm.Email;
+            feedback.Message = feedbackVm.Message;
+            feedback.Status = feedbackVm.Status;
+            feedback.CreatedDate = DateTime.Now;
+        }
+
+        public static void UpdateOrder(this Order order, OrderViewModel orderVm)
+        {
+            order.ID = orderVm.ID;
+            order.CustomerName = orderVm.CustomerName;
+            order.CustomerAddress = orderVm.CustomerAddress;
+            order.CustomerEmail = orderVm.CustomerEmail;
+            order.CustomerMobile = orderVm.CustomerMobile;
+            order.CustomerMessage = orderVm.CustomerMessage;
+            order.PaymentMethod = orderVm.PaymentMethod;
+            order.CreateBy = orderVm.CreateBy;
+            order.CreateDate = DateTime.Now;
+            order.Status = orderVm.Status;
+            order.PaymentStatus = orderVm.PaymentStatus;
+            order.CustomerId = orderVm.CustomerId;
+        }
+        public static void UpdateApplicationGroup(this ApplicationGroup appGroup, ApplicationGroupViewModel appGroupViewModel)
+        {
+            appGroup.ID = appGroupViewModel.ID;
+            appGroup.Name = appGroupViewModel.Name;
+        }
+
+        public static void UpdateApplicationRole(this ApplicationRole appRole, ApplicationRoleViewModel appRoleViewModel, string action = "add")
+        {
+            if (action == "update")
+                appRole.Id = appRoleViewModel.Id;
+            else
+                appRole.Id = Guid.NewGuid().ToString();
+            appRole.Name = appRoleViewModel.Name;
+            appRole.Description = appRoleViewModel.Description;
+        }
+        public static void UpdateUser(this ApplicationUser appUser, ApplicationUserViewModel appUserViewModel, string action = "add")
+        {
+            appUser.Id = appUserViewModel.Id;
+            appUser.FullName = appUserViewModel.FullName;
+            appUser.BirthDay = appUserViewModel.BirthDay;
+            appUser.Email = appUserViewModel.Email;
+            appUser.UserName = appUserViewModel.UserName;
+            appUser.PhoneNumber = appUserViewModel.PhoneNumber;
+        }
+
     }
 }

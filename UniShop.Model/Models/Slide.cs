@@ -14,7 +14,7 @@ namespace UniShop.Model.Models
         [MaxLength(256)]
         public string Name { set; get; }
 
-        [MaxLength(256)]
+      
         public string Description { set; get; }
 
         [MaxLength(256)]

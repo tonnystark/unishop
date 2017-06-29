@@ -41,6 +41,13 @@ namespace UniShop.Model.Models
         public string PaymentStatus { get; set; }
         public bool Status { get; set; }
 
+        [StringLength(128)]
+        [Column(TypeName = "nvarchar")]
+        public string CustomerId { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public virtual ApplicationUser User { get; set; }
+
         public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
     }
 }
