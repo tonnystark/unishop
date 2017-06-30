@@ -8,6 +8,7 @@
             "unishop.application_groups",
             "unishop.application_roles",
             "unishop.application_users",
+            "unishop.statistics",
             "unishop.common"
         ])
         .config(config)

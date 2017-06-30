@@ -120,6 +120,10 @@
     <Compile Include="Migrations\201706281334283_Change Product.Designer.cs">
       <DependentUpon>201706281334283_Change Product.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706291415319_add store GetRevenueStatistic.cs" />
+    <Compile Include="Migrations\201706291415319_add store GetRevenueStatistic.Designer.cs">
+      <DependentUpon>201706291415319_add store GetRevenueStatistic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicationGroupRepository.cs" />
@@ -204,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706281334283_Change Product.resx">
       <DependentUpon>201706281334283_Change Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706291415319_add store GetRevenueStatistic.resx">
+      <DependentUpon>201706291415319_add store GetRevenueStatistic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
