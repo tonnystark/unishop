@@ -1,9 +1,9 @@
-﻿(function (app) {
-    'use strict';
+﻿(function(app) {
+    "use strict";
 
-    app.controller('applicationUserListController', applicationUserListController);
+    app.controller("applicationUserListController", applicationUserListController);
 
-    applicationUserListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox'];
+    applicationUserListController.$inject = ["$scope", "apiService", "notificationService", "$ngBootbox"];
 
     function applicationUserListController($scope, apiService, notificationService, $ngBootbox) {
         $scope.loading = true;
@@ -15,22 +15,25 @@
         $scope.deleteItem = deleteItem;
 
         function deleteItem(id) {
-            $ngBootbox.confirm('Bạn có chắc muốn xóa?')
-                .then(function () {
+            $ngBootbox.confirm("Bạn có chắc muốn xóa?")
+                .then(function() {
                     var config = {
                         params: {
                             id: id
                         }
-                    }
-                    apiService.del('/api/applicationUser/delete', config, function () {
-                        notificationService.displaySuccess('Đã xóa thành công.');
-                        search();
-                    },
-                    function () {
-                        notificationService.displayError('Xóa không thành công.');
-                    });
+                    };
+                    apiService.del("/api/applicationUser/delete",
+                        config,
+                        function() {
+                            notificationService.displaySuccess("Đã xóa thành công.");
+                            search();
+                        },
+                        function() {
+                            notificationService.displayError("Xóa không thành công.");
+                        });
                 });
         }
+
         function search(page) {
             page = page || 0;
 
@@ -41,9 +44,8 @@
                     pageSize: 10,
                     filter: $scope.filterExpression
                 }
-            }
-
-            apiService.get('/api/applicationUser/getlistpaging', config, dataLoadCompleted, dataLoadFailed);
+            };
+            apiService.get("/api/applicationUser/getlistpaging", config, dataLoadCompleted, dataLoadFailed);
         }
 
         function dataLoadCompleted(result) {
@@ -54,18 +56,19 @@
             $scope.loading = false;
 
             if ($scope.filterExpression && $scope.filterExpression.length) {
-                notificationService.displayInfo(result.data.Items.length + ' items found');
+                notificationService.displayInfo(result.data.Items.length + " items found");
             }
         }
+
         function dataLoadFailed(response) {
             notificationService.displayError(response.data);
         }
 
         function clearSearch() {
-            $scope.filterExpression = '';
+            $scope.filterExpression = "";
             search();
         }
 
         $scope.search();
     }
-})(angular.module('unishop.application_users'));
+})(angular.module("unishop.application_users"));

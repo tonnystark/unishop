@@ -8,14 +8,16 @@
                 var url = "/" + category.Alias + ".pc-" + category.ID + ".html";
                 var childCategories = Model.Where(x => x.ParentID == category.ID);
                 <li class="item1">
-                    <a href="@url">@category.Name @(childCategories.Count() > 0 ? @Html.Raw("<img class=\"arrow-img\" src=\"/Assets/client/images/arrow1.png\" alt=\"\" />") : @Html.Raw("")) </a>
+                    <a href="@url">@category.Name @(childCategories.Count() > 0 ? Html.Raw("<img class=\"arrow-img\" src=\"/Assets/client/images/arrow1.png\" alt=\"\" />") : Html.Raw("")) </a>
                     @if (childCategories.Count() > 0)
                     {
                         <ul class="cute">
                             @foreach (var childCategory in childCategories)
                             {
                                 var childUrl = "/" + childCategory.Alias + ".pc-" + childCategory.ID + ".html";
-                                <li class="subitem1"><a href="@childUrl">@childCategory.Name </a></li>
+                                <li class="subitem1">
+                                    <a href="@childUrl">@childCategory.Name </a>
+                                </li>
                             }
                         </ul>
                     }
@@ -43,13 +45,19 @@
         //    });
 
         //});
+
+    
     </script>
     <div class=" chain-grid menu-chain">
-        <a href="single.html"><img class="img-responsive chain" src="~/Assets/client/images/wat.jpg" alt=" " /></a>
+        <a href="single.html">
+            <img class="img-responsive chain" src="~/Assets/client/images/wat.jpg" alt=" "/>
+        </a>
         <div class="grid-chain-bottom chain-watch">
             <span class="actual dolor-left-grid">300$</span>
             <span class="reducedfrom">500$</span>
-            <h6><a href="single.html">Lorem ipsum dolor</a></h6>
+            <h6>
+                <a href="single.html">Lorem ipsum dolor</a>
+            </h6>
         </div>
     </div>
     <a class="view-all all-product" href="product.html">VIEW ALL PRODUCTS<span> </span></a>

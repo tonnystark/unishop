@@ -1,4 +1,5 @@
-﻿@using BotDetect.Web.Mvc
+﻿@using BotDetect.Web
+@using BotDetect.Web.Mvc
 @model UniShop.Web.Models.FeedBackViewModel
 @{
     ViewBag.Title = Model.Name;
@@ -8,6 +9,8 @@
 @section footerJs
 {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiX5sHwQa_GTU5sVCl_6NoGDPWK5I4qwM">
+
+    
     </script>
     <script src="~/Assets/client/js/controllers/contact.js"></script>
 }
@@ -19,13 +22,13 @@
         margin: auto;
     }
 </style>
-<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+<link href="@CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css"/>
 <div class="main">
     <div id="map"></div>
-    <input type="hidden" id="hidAddress" value="@Model.ContactDetail.Name <br/> Điện thoại: @Model.ContactDetail.Phone <br /> Địa chỉ:  @Model.ContactDetail.Address" />
-    <input type="hidden" id="hidLat" value="@Model.ContactDetail.Lat" />
-    <input type="hidden" id="hidLng" value="@Model.ContactDetail.Lng" />
-    <input type="hidden" id="hidName" value="@Model.ContactDetail.Name" />
+    <input type="hidden" id="hidAddress" value="@Model.ContactDetail.Name <br/> Điện thoại: @Model.ContactDetail.Phone <br /> Địa chỉ:  @Model.ContactDetail.Address"/>
+    <input type="hidden" id="hidLat" value="@Model.ContactDetail.Lat"/>
+    <input type="hidden" id="hidLng" value="@Model.ContactDetail.Lng"/>
+    <input type="hidden" id="hidName" value="@Model.ContactDetail.Name"/>
     <div class="reservation_top">
         <div class="contact_right">
             <h3> Thông tin liên hệ</h3>
@@ -50,16 +53,20 @@
                     {
                         <div class="alert alert-success" role="alert">
                             <strong>Chúc mừng bạn! </strong> gửi phản hồi thành công.
-                            <br />Chúng tôi sẽ liên hệ lại sớm nhất có thể.
+                            <br/>Chúng tôi sẽ liên hệ lại sớm nhất có thể.
                         </div>
                     }
-                    @Html.ValidationSummary(false, "", new { @class = "error" });
-                    @Html.TextBoxFor(model => model.Name, new { @class = "textbox" });
-                    @Html.TextBoxFor(model => model.Email, new { @class = "textbox" });
-                    @Html.TextAreaFor(model => model.Message);
+                    @Html.ValidationSummary(false, "", new {@class = "error"})
+                    ;
+                    @Html.TextBoxFor(model => model.Name, new {@class = "textbox"})
+                    ;
+                    @Html.TextBoxFor(model => model.Email, new {@class = "textbox"})
+                    ;
+                    @Html.TextAreaFor(model => model.Message)
+                    ;
 
 
-                    MvcCaptcha contactCaptcha = new MvcCaptcha("contactCaptcha");
+                    var contactCaptcha = new MvcCaptcha("contactCaptcha");
                     @Html.Captcha(contactCaptcha)
                     @Html.TextBox("CaptchaCode")
 

@@ -1,4 +1,5 @@
-﻿@model UniShop.Web.Models.ProductViewModel
+﻿@using UniShop.Web.Models
+@model UniShop.Web.Models.ProductViewModel
 @{
     ViewBag.Title = Model.Name;
     ViewBag.MetaKeyword = Model.MetaKeyword;
@@ -6,51 +7,58 @@
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
-<link href="~/Assets/client/css/etalage.css" rel="stylesheet" />
+<link href="~/Assets/client/css/etalage.css" rel="stylesheet"/>
 @section footerJs
 {
 
     <script src="~/Assets/client/js/jquery.etalage.min.js"></script>
     <script type="text/javascript" src="~/Assets/client/js/jquery.flexisel.js"></script>
-   
+
     <script type="text/javascript">
-        jQuery(document).ready(function () {
-            $("#flexiselDemo1").flexisel({
-                visibleItems: 5,
-                animationSpeed: 1000,
-                autoPlay: true,
-                autoPlaySpeed: 3000,
-                pauseOnHover: true,
-                enableResponsiveBreakpoints: true,
-                responsiveBreakpoints: {
-                    portrait: {
-                        changePoint: 480,
-                        visibleItems: 1
-                    },
-                    landscape: {
-                        changePoint: 640,
-                        visibleItems: 2
-                    },
-                    tablet: {
-                        changePoint: 768,
-                        visibleItems: 3
-                    }
-                }
+        jQuery(document)
+            .ready(function() {
+                $("#flexiselDemo1")
+                    .flexisel({
+                        visibleItems: 5,
+                        animationSpeed: 1000,
+                        autoPlay: true,
+                        autoPlaySpeed: 3000,
+                        pauseOnHover: true,
+                        enableResponsiveBreakpoints: true,
+                        responsiveBreakpoints: {
+                            portrait: {
+                                changePoint: 480,
+                                visibleItems: 1
+                            },
+                            landscape: {
+                                changePoint: 640,
+                                visibleItems: 2
+                            },
+                            tablet: {
+                                changePoint: 768,
+                                visibleItems: 3
+                            }
+                        }
+                    });
+
+                $('#etalage')
+                    .etalage({
+                        thumb_image_width: 300,
+                        thumb_image_height: 400,
+                        source_image_width: 900,
+                        source_image_height: 1200,
+                        show_hint: true,
+                        click_callback: function(image_anchor, instance_id) {
+                            alert('Callback example:\nYou clicked on an image with the anchor: "' +
+                                image_anchor +
+                                '"\n(in Etalage instance: "' +
+                                instance_id +
+                                '")');
+                        }
+                    });
+
+
             });
-
-            $('#etalage').etalage({
-                thumb_image_width: 300,
-                thumb_image_height: 400,
-                source_image_width: 900,
-                source_image_height: 1200,
-                show_hint: true,
-                click_callback: function (image_anchor, instance_id) {
-                    alert('Callback example:\nYou clicked on an image with the anchor: "' + image_anchor + '"\n(in Etalage instance: "' + instance_id + '")');
-                }
-            });
-
-
-        });
     </script>
 
 }
@@ -61,19 +69,19 @@
             <ul id="etalage">
                 <li>
                     <a href="#">
-                        <img class="etalage_thumb_image img-responsive" src="@Model.Image" />
-                        <img class="etalage_source_image img-responsive" src="@Model.Image" title="" />
+                        <img class="etalage_thumb_image img-responsive" src="@Model.Image"/>
+                        <img class="etalage_source_image img-responsive" src="@Model.Image" title=""/>
                     </a>
                 </li>
                 @{
-                    var moreImages = (List<string>)ViewBag.MoreImages;
+                    var moreImages = (List<string>) ViewBag.MoreImages;
                     if (moreImages.Count > 0)
                     {
                         foreach (var image in moreImages)
                         {
                             <li>
-                                <img class="etalage_thumb_image img-responsive" src="@image" />
-                                <img class="etalage_source_image img-responsive" src="@image" title="" />
+                                <img class="etalage_thumb_image img-responsive" src="@image"/>
+                                <img class="etalage_source_image img-responsive" src="@image" title=""/>
                             </li>
                         }
                     }
@@ -94,9 +102,11 @@
             <div class="share">
                 <h5>Tag :</h5>
                 <ul class="tags">
-                    @foreach (var tag in (IEnumerable<UniShop.Web.Models.TagViewModel>)ViewBag.Tags)
+                    @foreach (var tag in (IEnumerable<TagViewModel>) ViewBag.Tags)
                     {
-                        <li><a class="tag" href="/tag/@(tag.ID).html">@(tag.Name)</a></li>
+                        <li>
+                            <a class="tag" href="/tag/@(tag.ID).html">@(tag.Name)</a>
+                        </li>
                     }
 
                 </ul>
@@ -105,10 +115,26 @@
             <div class="share">
                 <h5>Share Product :</h5>
                 <ul class="share_nav">
-                    <li><a href="#"><img src="Assets/client/images/facebook.png" title="facebook"></a></li>
-                    <li><a href="#"><img src="Assets/client/images/twitter.png" title="Twiiter"></a></li>
-                    <li><a href="#"><img src="Assets/client/images/rss.png" title="Rss"></a></li>
-                    <li><a href="#"><img src="Assets/client/images/gpluse.png" title="Google+"></a></li>
+                    <li>
+                        <a href="#">
+                            <img src="Assets/client/images/facebook.png" title="facebook">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="Assets/client/images/twitter.png" title="Twiiter">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="Assets/client/images/rss.png" title="Rss">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="Assets/client/images/gpluse.png" title="Google+">
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -116,13 +142,13 @@
         <div class="clearfix"> </div>
     </div>
     @{
-        var relatedProducts = (IEnumerable<UniShop.Web.Models.ProductViewModel>)ViewBag.RelatedProducts;
+        var relatedProducts = (IEnumerable<ProductViewModel>) ViewBag.RelatedProducts;
     }
     <ul id="flexiselDemo1">
         @foreach (var product in relatedProducts)
         {
             <li>
-                <img src="@product.Image" />
+                <img src="@product.Image"/>
                 <div class="grid-flex">
                     <a href="#">@product.Name</a>
                     <p>@(Model.Price == 0 ? "Liên hệ" : Model.Price.ToString("N0"))</p>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using AutoMapper;
 using BotDetect.Web.Mvc;
 using UniShop.Common;
@@ -15,19 +11,19 @@ namespace UniShop.Web.Controllers
 {
     public class ContactController : Controller
     {
-        private IContactDetailService _contactDetailService;
-        private IFeedbackService _feedbackService;
+        private readonly IContactDetailService _contactDetailService;
+        private readonly IFeedbackService _feedbackService;
 
         public ContactController(IContactDetailService contactDetailService, IFeedbackService feedbackService)
         {
             _contactDetailService = contactDetailService;
             _feedbackService = feedbackService;
         }
+
         // GET: Contact
         public ActionResult Index()
         {
-
-            FeedBackViewModel viewModel = new FeedBackViewModel();
+            var viewModel = new FeedBackViewModel();
             viewModel.ContactDetail = GetContactDetailViewModel();
             return View(viewModel);
         }
@@ -38,7 +34,7 @@ namespace UniShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                FeedBack newFeedback = new FeedBack();
+                var newFeedback = new FeedBack();
                 newFeedback.UpdateFeedBack(feedbackViewModel);
                 _feedbackService.Create(newFeedback);
                 _feedbackService.Save();
@@ -46,7 +42,7 @@ namespace UniShop.Web.Controllers
                 ViewData["SuccessMsg"] = "Gửi phản hồi thành công";
 
                 var adminEmail = ConfigHelper.GetValueByKey("AdminEmail");
-                string content = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/contact_template.html"));
+                var content = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/contact_template.html"));
                 content = content.Replace("{{Name}}", feedbackViewModel.Name);
                 content = content.Replace("{{Web}}", "http://localhost:11673/");
                 content = content.Replace("{{mailTo}}", feedbackViewModel.Email);

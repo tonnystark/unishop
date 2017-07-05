@@ -1,6 +1,6 @@
 (function(angular, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['angular', 'ckeditor'], function(angular) {
+    if (typeof define === "function" && define.amd) {
+        define(["angular", "ckeditor"], function(angular) {
             return factory(angular);
         });
     } else {

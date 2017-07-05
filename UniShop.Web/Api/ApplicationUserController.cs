@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
-using Microsoft.AspNet.Identity;
 using UniShop.Common.Exceptions;
 using UniShop.Model.Models;
 using UniShop.Service;
@@ -21,9 +20,10 @@ namespace UniShop.Web.Api
     [RoutePrefix("api/applicationUser")]
     public class ApplicationUserController : ApiControllerBase
     {
-        private ApplicationUserManager _userManager;
-        private IApplicationGroupService _appGroupService;
-        private IApplicationRoleService _appRoleService;
+        private readonly IApplicationGroupService _appGroupService;
+        private readonly IApplicationRoleService _appRoleService;
+        private readonly ApplicationUserManager _userManager;
+
         public ApplicationUserController(
             IApplicationGroupService appGroupService,
             IApplicationRoleService appRoleService,
@@ -39,20 +39,21 @@ namespace UniShop.Web.Api
         [Route("getlistpaging")]
         [HttpGet]
         [Authorize(Roles = "ViewUser")]
-        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string filter = null)
+        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize,
+            string filter = null)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                int totalRow = 0;
+                var totalRow = 0;
                 var model = _userManager.Users;
-                IEnumerable<ApplicationUserViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserViewModel>>(model);
+                var modelVm = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserViewModel>>(model);
 
-                PaginationSet<ApplicationUserViewModel> pagedSet = new PaginationSet<ApplicationUserViewModel>()
+                var pagedSet = new PaginationSet<ApplicationUserViewModel>
                 {
                     Page = page,
                     TotalCount = totalRow,
-                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize),
+                    TotalPages = (int) Math.Ceiling((decimal) totalRow/pageSize),
                     Items = modelVm
                 };
 
@@ -69,7 +70,6 @@ namespace UniShop.Web.Api
         {
             if (string.IsNullOrEmpty(id))
             {
-
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, nameof(id) + " không có giá trị.");
             }
             var user = _userManager.FindByIdAsync(id);
@@ -77,20 +77,18 @@ namespace UniShop.Web.Api
             {
                 return request.CreateErrorResponse(HttpStatusCode.NoContent, "Không có dữ liệu");
             }
-            else
-            {
-                var applicationUserViewModel = Mapper.Map<ApplicationUser, ApplicationUserViewModel>(user.Result);
-                var listGroup = _appGroupService.GetListGroupByUserId(applicationUserViewModel.Id);
-                applicationUserViewModel.Groups = Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(listGroup);
-                return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
-            }
-
+            var applicationUserViewModel = Mapper.Map<ApplicationUser, ApplicationUserViewModel>(user.Result);
+            var listGroup = _appGroupService.GetListGroupByUserId(applicationUserViewModel.Id);
+            applicationUserViewModel.Groups =
+                Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(listGroup);
+            return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
         }
 
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "AddUser")]
-        public async Task<HttpResponseMessage> Create(HttpRequestMessage request, ApplicationUserViewModel applicationUserViewModel)
+        public async Task<HttpResponseMessage> Create(HttpRequestMessage request,
+            ApplicationUserViewModel applicationUserViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +103,7 @@ namespace UniShop.Web.Api
                         var listAppUserGroup = new List<ApplicationUserGroup>();
                         foreach (var group in applicationUserViewModel.Groups)
                         {
-                            listAppUserGroup.Add(new ApplicationUserGroup()
+                            listAppUserGroup.Add(new ApplicationUserGroup
                             {
                                 GroupId = group.ID,
                                 UserId = newAppUser.Id
@@ -124,10 +122,8 @@ namespace UniShop.Web.Api
 
 
                         return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
-
                     }
-                    else
-                        return request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join(",", result.Errors));
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join(",", result.Errors));
                 }
                 catch (NameDuplicatedException dex)
                 {
@@ -138,16 +134,14 @@ namespace UniShop.Web.Api
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
                 }
             }
-            else
-            {
-                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "UpdateUser")]
-        public async Task<HttpResponseMessage> Update(HttpRequestMessage request, ApplicationUserViewModel applicationUserViewModel)
+        public async Task<HttpResponseMessage> Update(HttpRequestMessage request,
+            ApplicationUserViewModel applicationUserViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -167,7 +161,7 @@ namespace UniShop.Web.Api
 
                         foreach (var group in applicationUserViewModel.Groups)
                         {
-                            listAppUserGroup.Add(new ApplicationUserGroup()
+                            listAppUserGroup.Add(new ApplicationUserGroup
                             {
                                 GroupId = group.ID,
                                 UserId = applicationUserViewModel.Id
@@ -176,7 +170,6 @@ namespace UniShop.Web.Api
                             var listRole = _appRoleService.GetListRoleByGroupId(group.ID);
                             foreach (var role in listRole)
                             {
-
                                 await _userManager.RemoveFromRoleAsync(appUser.Id, role.Name);
                                 await _userManager.AddToRoleAsync(appUser.Id, role.Name);
                             }
@@ -184,20 +177,15 @@ namespace UniShop.Web.Api
                         _appGroupService.AddUserToGroups(listAppUserGroup, applicationUserViewModel.Id);
                         _appGroupService.Save();
                         return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
-
                     }
-                    else
-                        return request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join(",", result.Errors));
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join(",", result.Errors));
                 }
                 catch (NameDuplicatedException dex)
                 {
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
             }
-            else
-            {
-                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         [HttpDelete]
@@ -216,15 +204,12 @@ namespace UniShop.Web.Api
                 var result = await _userManager.DeleteAsync(appUser);
                 if (result.Succeeded)
                     return request.CreateResponse(HttpStatusCode.OK, id);
-                else
-                    return request.CreateErrorResponse(HttpStatusCode.OK, string.Join(",", result.Errors));
+                return request.CreateErrorResponse(HttpStatusCode.OK, string.Join(",", result.Errors));
             }
             catch (Exception ex)
             {
-
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-
     }
 }

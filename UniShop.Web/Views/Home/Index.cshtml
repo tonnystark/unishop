@@ -12,10 +12,10 @@
             <div class="wmuSliderWrapper">
                 @foreach (var slide in Model.Slides)
                 {
-                    <article style="position: absolute; width: 100%; opacity: 0;">
+                    <article style="opacity: 0; position: absolute; width: 100%;">
                         <div class="banner-matter">
                             <div class="col-md-5 banner-bag">
-                                <img class="img-responsive " src="@slide.Image" alt="@slide.Name" />
+                                <img class="img-responsive " src="@slide.Image" alt="@slide.Name"/>
                             </div>
                             <div class="col-md-7 banner-off">
                                 @Html.Raw(slide.Description)
@@ -29,9 +29,11 @@
             </div>
 
             <ul class="wmuSliderPagination">
-                @for (int i = 0; i < Model.Slides.Count(); ++i)
+                @for (var i = 0; i < Model.Slides.Count(); ++i)
                 {
-                    <li><a href="#" class="">@i</a></li>
+                    <li>
+                        <a href="#" class="">@i</a>
+                    </li>
                 }
 
             </ul>
@@ -44,13 +46,17 @@
     </div>
     <div class="product-left">
         @foreach (var lastestProduct in Model.LastestProducts)
-            {
-                var url = "/" + lastestProduct.Alias + ".p-" + lastestProduct.ID + ".html";
+        {
+            var url = "/" + lastestProduct.Alias + ".p-" + lastestProduct.ID + ".html";
             <div class="col-md-4 chain-grid grid-top-chain">
-                <a href="@url"><img class="img-responsive chain" src="@lastestProduct.Image" alt=" " /></a>
+                <a href="@url">
+                    <img class="img-responsive chain" src="@lastestProduct.Image" alt=" "/>
+                </a>
                 <span class="star"> </span>
                 <div class="grid-chain-bottom">
-                    <h6><a href="@url">@lastestProduct.Name</a></h6>
+                    <h6>
+                        <a href="@url">@lastestProduct.Name</a>
+                    </h6>
                     <div class="star-price">
                         <div class="dolor-grid">
                             @if (lastestProduct.PromotionPrice.HasValue)
@@ -85,13 +91,17 @@
     </div>
     <div class="product-left">
         @foreach (var hotProduct in Model.HotProducts)
-            {
-                var url = "/" + hotProduct.Alias + ".p-" + hotProduct.ID + ".html";
+        {
+            var url = "/" + hotProduct.Alias + ".p-" + hotProduct.ID + ".html";
             <div class="col-md-4 chain-grid  grid-top-chain">
-                <a href="@url"><img class="img-responsive chain" src="@hotProduct.Image" alt=" " /></a>
+                <a href="@url">
+                    <img class="img-responsive chain" src="@hotProduct.Image" alt=" "/>
+                </a>
                 <span class="star"> </span>
                 <div class="grid-chain-bottom">
-                    <h6><a href="@url">@hotProduct.Name</a></h6>
+                    <h6>
+                        <a href="@url">@hotProduct.Name</a>
+                    </h6>
                     <div class="star-price">
                         <div class="dolor-grid">
                             @if (hotProduct.PromotionPrice.HasValue)
@@ -112,7 +122,7 @@
                                 <label for="rating-input-1-1" class="rating-star"> </label>
                             </span>
                         </div>
-                        <a class="now-get get-cart btnAddToCart" href="#"  data-id="@hotProduct.ID">Thêm vào giỏ</a>
+                        <a class="now-get get-cart btnAddToCart" href="#" data-id="@hotProduct.ID">Thêm vào giỏ</a>
                         <div class="clearfix"> </div>
                     </div>
                 </div>

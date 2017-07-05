@@ -1,29 +1,32 @@
 ﻿/// <reference path="/Assets/admin/libs/angular/angular.js" />
 
-(function () {
-    angular.module('unishop.application_groups', ['unishop.common']).config(config);
+(function() {
+    angular.module("unishop.application_groups", ["unishop.common"]).config(config);
 
-    config.$inject = ['$stateProvider', '$urlRouterProvider'];
+    config.$inject = ["$stateProvider", "$urlRouterProvider"];
 
     function config($stateProvider, $urlRouterProvider) {
 
-        $stateProvider.state('application_groups', {
-            url: "/application_groups",
-            templateUrl: "/app/components/application_groups/applicationGroupListView.html",
-            parent: 'base',
-            controller: "applicationGroupListController"
-        })
-            .state('add_application_group', {
+        $stateProvider.state("application_groups",
+            {
+                url: "/application_groups",
+                templateUrl: "/app/components/application_groups/applicationGroupListView.html",
+                parent: "base",
+                controller: "applicationGroupListController"
+            })
+            .state("add_application_group",
+            {
                 url: "/add_application_group",
-                parent: 'base',
+                parent: "base",
                 templateUrl: "/app/components/application_groups/applicationGroupAddView.html",
                 controller: "applicationGroupAddController"
             })
-            .state('edit_application_group', {
+            .state("edit_application_group",
+            {
                 url: "/edit_application_group/:id",
                 templateUrl: "/app/components/application_groups/applicationGroupEditView.html",
                 controller: "applicationGroupEditController",
-                parent: 'base',
+                parent: "base",
             });
     }
 })();

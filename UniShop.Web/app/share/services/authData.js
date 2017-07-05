@@ -1,14 +1,17 @@
-﻿(function (app) {
-    'use strict';
-    app.factory('authData', [function () {
-        var authDataFactory = {};
+﻿(function(app) {
+    "use strict";
+    app.factory("authData",
+    [
+        function() {
+            var authDataFactory = {};
 
-        var authentication = {
-            IsAuthenticated: false,
-            userName: ""
-        };
-        authDataFactory.authenticationData = authentication;
+            var authentication = {
+                IsAuthenticated: false,
+                userName: ""
+            };
+            authDataFactory.authenticationData = authentication;
 
-        return authDataFactory;
-    }]);
-})(angular.module('unishop.common'));
+            return authDataFactory;
+        }
+    ]);
+})(angular.module("unishop.common"));

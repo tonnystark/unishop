@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -19,29 +18,31 @@ namespace UniShop.Web.Api
     [Authorize]
     public class ApplicationRoleController : ApiControllerBase
     {
-        private IApplicationRoleService _appRoleService;
+        private readonly IApplicationRoleService _appRoleService;
+
         public ApplicationRoleController(IErrorService errorService,
-             IApplicationRoleService appRoleService) : base(errorService)
+            IApplicationRoleService appRoleService) : base(errorService)
         {
             _appRoleService = appRoleService;
         }
 
         [Route("getlistpaging")]
         [HttpGet]
-        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string filter = null)
+        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize,
+            string filter = null)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                int totalRow = 0;
+                var totalRow = 0;
                 var model = _appRoleService.GetAll(page, pageSize, out totalRow, filter);
-                IEnumerable<ApplicationRoleViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(model);
+                var modelVm = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(model);
 
-                PaginationSet<ApplicationRoleViewModel> pagedSet = new PaginationSet<ApplicationRoleViewModel>()
+                var pagedSet = new PaginationSet<ApplicationRoleViewModel>
                 {
                     Page = page,
                     TotalCount = totalRow,
-                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize),
+                    TotalPages = (int) Math.Ceiling((decimal) totalRow/pageSize),
                     Items = modelVm
                 };
 
@@ -50,6 +51,7 @@ namespace UniShop.Web.Api
                 return response;
             });
         }
+
         [Route("getlistall")]
         [HttpGet]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
@@ -58,13 +60,14 @@ namespace UniShop.Web.Api
             {
                 HttpResponseMessage response = null;
                 var model = _appRoleService.GetAll();
-                IEnumerable<ApplicationRoleViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(model);
+                var modelVm = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(model);
 
                 response = request.CreateResponse(HttpStatusCode.OK, modelVm);
 
                 return response;
             });
         }
+
         [Route("detail/{id}")]
         [HttpGet]
         public HttpResponseMessage Details(HttpRequestMessage request, string id)
@@ -73,7 +76,7 @@ namespace UniShop.Web.Api
             {
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, nameof(id) + " không có giá trị.");
             }
-            ApplicationRole appRole = _appRoleService.GetDetail(id);
+            var appRole = _appRoleService.GetDetail(id);
             if (appRole == null)
             {
                 return request.CreateErrorResponse(HttpStatusCode.NoContent, "No group");
@@ -100,10 +103,7 @@ namespace UniShop.Web.Api
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
             }
-            else
-            {
-                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         [HttpPut]
@@ -125,10 +125,7 @@ namespace UniShop.Web.Api
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
             }
-            else
-            {
-                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         [HttpDelete]

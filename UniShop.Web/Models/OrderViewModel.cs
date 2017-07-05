@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 using UniShop.Model.Models;
 
 namespace UniShop.Web.Models
@@ -43,7 +40,7 @@ namespace UniShop.Web.Models
 
         [StringLength(128)]
         public string CustomerId { get; set; }
-        
+
         public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using UniShop.Service;
@@ -13,7 +10,8 @@ namespace UniShop.Web.Api
     public class StatisticController : ApiControllerBase
     {
         private IErrorService _errorService;
-        private IStatisticService _statisticService;
+        private readonly IStatisticService _statisticService;
+
         public StatisticController(IErrorService errorService, IStatisticService statisticService) : base(errorService)
         {
             _errorService = errorService;

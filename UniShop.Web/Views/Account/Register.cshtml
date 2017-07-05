@@ -1,21 +1,23 @@
-﻿@model UniShop.Web.Models.RegisterViewModel
-@using BotDetect.Web.Mvc;
+﻿@using BotDetect.Web
+@using BotDetect.Web.Mvc
+@model UniShop.Web.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
-<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+<link href="@CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css"/>
 <div class="register">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
     {
-        @Html.AntiForgeryToken();
-        @Html.ValidationSummary(false, "", new { @class = "error" })
+        @Html.AntiForgeryToken()
+        ;
+        @Html.ValidationSummary(false, "", new {@class = "error"})
 
         if (ViewData["SuccessMsg"] != null)
         {
             <div class="alert alert-success" role="alert">
                 <strong>Chúc mừng bạn! </strong> đã đăng ký thành công.
-                <br />Vui lòng click <a href="/dang-nhap.html">vào đây </a>để đăng nhập.
+                <br/>Vui lòng click <a href="/dang-nhap.html">vào đây </a>để đăng nhập.
             </div>
         }
         <div class="register-top-grid">
@@ -36,7 +38,7 @@
                 @Html.PasswordFor(model => model.Password)
 
                 @{
-                    MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha");
+                    var registerCaptcha = new MvcCaptcha("registerCaptcha");
                 }
                 @Html.Captcha(registerCaptcha)
                 @Html.TextBox("CaptchaCode")
@@ -49,5 +51,5 @@
             <input type="submit" value="submit">
             <div class="clearfix"> </div>
         </div>
-                    }
+    }
 </div>

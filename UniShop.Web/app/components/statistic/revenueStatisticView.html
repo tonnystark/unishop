@@ -1,13 +1,19 @@
-﻿  <!-- Content Header (Page header) -->
+﻿<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
         Thêm mới sản phẩm
 
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">Sản phẩm</a></li>
-        <li><a ui-sref="products">Danh sách</a></li>
+        <li>
+            <a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a>
+        </li>
+        <li>
+            <a href="#">Sản phẩm</a>
+        </li>
+        <li>
+            <a ui-sref="products">Danh sách</a>
+        </li>
         <li class="active">Thêm mới</li>
     </ol>
 </section>
@@ -20,7 +26,9 @@
             <div class="nav-tabs-custom">
                 <!-- Tabs within a box -->
                 <ul class="nav nav-tabs pull-right">
-                    <li class="active"><a href="#revenue-chart" data-toggle="tab">Doanh thu</a></li>
+                    <li class="active">
+                        <a href="#revenue-chart" data-toggle="tab">Doanh thu</a>
+                    </li>
                 </ul>
                 <div class="tab-content no-padding">
                     <!-- Morris chart - Sales -->
@@ -45,24 +53,24 @@
 
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
-                                <td>Ngày</td>
-                                <td>Doanh số</td>
-                                <td>Lợi nhuận</td>
-                            </tr>
+                        <tr>
+                            <td>Ngày</td>
+                            <td>Doanh số</td>
+                            <td>Lợi nhuận</td>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in tabledata">
-                                <td>
-                                    {{item.Date | date}}
-                                </td>
-                                <td>
-                                    {{item.Revenues | number}}
-                                </td>
-                                <td>
-                                    {{item.Benefit | number}}
-                                </td>
-                            </tr>
+                        <tr ng-repeat="item in tabledata">
+                            <td>
+                                {{item.Date | date}}
+                            </td>
+                            <td>
+                                {{item.Revenues | number}}
+                            </td>
+                            <td>
+                                {{item.Benefit | number}}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div><!-- /.box-body-->

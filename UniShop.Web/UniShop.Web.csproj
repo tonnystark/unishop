@@ -4811,10 +4811,6 @@
     <Content Include="Assets\admin\libs\jquery-validation\src\localization\methods_nl.js" />
     <Content Include="Assets\admin\libs\jquery-validation\src\localization\methods_pt.js" />
     <Content Include="Assets\admin\libs\jQuery\AUTHORS.txt" />
-    <Content Include="Assets\admin\libs\jQuery\build\release.js" />
-    <Content Include="Assets\admin\libs\jQuery\build\release\cdn.js" />
-    <Content Include="Assets\admin\libs\jQuery\build\release\dist.js" />
-    <Content Include="Assets\admin\libs\jQuery\build\release\ensure-sizzle.js" />
     <Content Include="Assets\admin\libs\jQuery\build\tasks\build.js" />
     <Content Include="Assets\admin\libs\jQuery\build\tasks\dist.js" />
     <Content Include="Assets\admin\libs\jQuery\build\tasks\lib\spawn_test.js" />
@@ -4822,11 +4818,13 @@
     <Content Include="Assets\admin\libs\jQuery\build\tasks\promises_aplus_tests.js" />
     <Content Include="Assets\admin\libs\jQuery\build\tasks\sourcemap.js" />
     <Content Include="Assets\admin\libs\jQuery\build\tasks\testswarm.js" />
-    <Content Include="Assets\admin\libs\jQuery\dist\core.js" />
+    <Content Include="Assets\admin\libs\jQuery\dist\.eslintrc.json" />
     <Content Include="Assets\admin\libs\jQuery\dist\jquery.js" />
     <Content Include="Assets\admin\libs\jQuery\dist\jquery.min.js" />
+    <Content Include="Assets\admin\libs\jQuery\dist\jquery.min.map" />
     <Content Include="Assets\admin\libs\jQuery\dist\jquery.slim.js" />
     <Content Include="Assets\admin\libs\jQuery\dist\jquery.slim.min.js" />
+    <Content Include="Assets\admin\libs\jQuery\dist\jquery.slim.min.map" />
     <Content Include="Assets\admin\libs\jQuery\external\npo\npo.js" />
     <Content Include="Assets\admin\libs\jQuery\external\qunit-assert-step\MIT-LICENSE.txt" />
     <Content Include="Assets\admin\libs\jQuery\external\qunit-assert-step\qunit-assert-step.js" />
@@ -4840,7 +4838,6 @@
     <Content Include="Assets\admin\libs\jQuery\external\sizzle\dist\sizzle.js" />
     <Content Include="Assets\admin\libs\jQuery\external\sizzle\dist\sizzle.min.js" />
     <Content Include="Assets\admin\libs\jQuery\external\sizzle\LICENSE.txt" />
-    <Content Include="Assets\admin\libs\jQuery\Gruntfile.js" />
     <Content Include="Assets\admin\libs\jQuery\LICENSE.txt" />
     <Content Include="Assets\admin\libs\jQuery\src\ajax.js" />
     <Content Include="Assets\admin\libs\jQuery\src\ajax\jsonp.js" />
@@ -5592,6 +5589,7 @@
     <Folder Include="app\share\footer\" />
     <Folder Include="app\share\navigation\" />
     <Folder Include="Assets\admin\libs\checklist-model\test\" />
+    <Folder Include="Assets\admin\libs\jQuery\build\release\" />
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\About\" />
     <Folder Include="Views\Post\" />
@@ -5750,28 +5748,10 @@
     <Content Include="Assets\admin\libs\bootstrap\nuget\MyGet.ps1" />
     <Content Include="Assets\admin\libs\bootstrap\package.json" />
     <Content Include="Assets\admin\libs\bootstrap\README.md" />
-    <Content Include="Assets\admin\libs\jQuery\.babelrc" />
     <Content Include="Assets\admin\libs\jQuery\.bower.json" />
-    <Content Include="Assets\admin\libs\jQuery\.editorconfig" />
-    <Content Include="Assets\admin\libs\jQuery\.eslintignore" />
-    <Content Include="Assets\admin\libs\jQuery\.eslintrc-browser.json" />
-    <Content Include="Assets\admin\libs\jQuery\.eslintrc-node.json" />
-    <Content Include="Assets\admin\libs\jQuery\.eslintrc.json" />
-    <Content Include="Assets\admin\libs\jQuery\.gitattributes" />
     <Content Include="Assets\admin\libs\jQuery\.github\ISSUE_TEMPLATE.md" />
     <Content Include="Assets\admin\libs\jQuery\.github\PULL_REQUEST_TEMPLATE.md" />
-    <Content Include="Assets\admin\libs\jQuery\.gitignore" />
-    <Content Include="Assets\admin\libs\jQuery\.mailmap" />
-    <Content Include="Assets\admin\libs\jQuery\.npmignore" />
-    <Content Include="Assets\admin\libs\jQuery\.npmrc" />
-    <Content Include="Assets\admin\libs\jQuery\.travis.yml" />
-    <Content Include="Assets\admin\libs\jQuery\bower.json" />
-    <Content Include="Assets\admin\libs\jQuery\CONTRIBUTING.md" />
-    <Content Include="Assets\admin\libs\jQuery\dist\.eslintrc.json" />
-    <Content Include="Assets\admin\libs\jQuery\dist\jquery.min.map" />
-    <Content Include="Assets\admin\libs\jQuery\dist\jquery.slim.min.map" />
     <Content Include="Assets\admin\libs\jQuery\external\sizzle\dist\sizzle.min.map" />
-    <Content Include="Assets\admin\libs\jQuery\package.json" />
     <Content Include="Assets\admin\libs\jQuery\README.md" />
     <Content Include="Assets\admin\libs\jQuery\src\.eslintrc.json" />
     <Content Include="Assets\admin\libs\jQuery\test\.eslintrc.json" />
@@ -6141,6 +6121,9 @@
     <Content Include="Assets\admin\libs\chart.js\test\fixtures\plugin.filler\fill-line-dataset.json" />
     <Content Include="Assets\admin\libs\chart.js\test\fixtures\plugin.filler\fill-radar-boundary-origin-spline.json" />
     <Content Include="Assets\admin\libs\chart.js\test\fixtures\plugin.filler\fill-radar-boundary-origin.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\test.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

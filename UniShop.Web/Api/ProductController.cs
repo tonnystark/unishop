@@ -19,6 +19,7 @@ namespace UniShop.Web.Api
     public class ProductController : ApiControllerBase
     {
         private readonly IProductService _productService;
+
         public ProductController(IErrorService errorService, IProductService ProductService)
             : base(errorService)
         {
@@ -50,7 +51,7 @@ namespace UniShop.Web.Api
                 var model = _productService.GetAll(keyword);
 
                 totalRows = model.Count();
-                var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
+                var query = model.OrderByDescending(x => x.CreatedDate).Skip(page*pageSize).Take(pageSize);
 
                 var responseData = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(query);
 
@@ -59,7 +60,7 @@ namespace UniShop.Web.Api
                     Items = responseData,
                     Page = page,
                     TotalCount = totalRows,
-                    TotalPages = (int)Math.Ceiling((decimal)totalRows / pageSize)
+                    TotalPages = (int) Math.Ceiling((decimal) totalRows/pageSize)
                 };
 
                 var response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
@@ -110,7 +111,6 @@ namespace UniShop.Web.Api
 
                 return response;
             });
-
         }
 
 
@@ -142,7 +142,6 @@ namespace UniShop.Web.Api
 
                 return response;
             });
-
         }
 
         [Route("delete")]
@@ -187,9 +186,9 @@ namespace UniShop.Web.Api
                     {
                         _productService.Delete(id);
                     }
-                   
+
                     _productService.SaveChanges();
-                    
+
 
                     response = request.CreateResponse(HttpStatusCode.OK, listProduct.Count);
                 }
@@ -201,6 +200,5 @@ namespace UniShop.Web.Api
                 return response;
             });
         }
-
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
@@ -17,10 +15,12 @@ namespace UniShop.Web.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        private IProductService _productService;
-        ApplicationUserManager _userManager;
-        private IOrderService _orderService;
-        public ShoppingCartController(IProductService productService, ApplicationUserManager userManager, IOrderService orderService)
+        private readonly IOrderService _orderService;
+        private readonly IProductService _productService;
+        private readonly ApplicationUserManager _userManager;
+
+        public ShoppingCartController(IProductService productService, ApplicationUserManager userManager,
+            IOrderService orderService)
         {
             _productService = productService;
             _userManager = userManager;
@@ -40,7 +40,7 @@ namespace UniShop.Web.Controllers
             if (Session[CommonConstants.SessionCart] == null)
                 Session[CommonConstants.SessionCart] = new List<ShoppingCartViewModel>();
 
-            var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
+            var cart = (List<ShoppingCartViewModel>) Session[CommonConstants.SessionCart];
             return Json(new
             {
                 data = cart,
@@ -51,7 +51,7 @@ namespace UniShop.Web.Controllers
         [HttpPost]
         public JsonResult Add(int productId)
         {
-            var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
+            var cart = (List<ShoppingCartViewModel>) Session[CommonConstants.SessionCart];
             var product = _productService.GetById(productId);
             if (cart == null)
                 cart = new List<ShoppingCartViewModel>();
@@ -90,7 +90,6 @@ namespace UniShop.Web.Controllers
             {
                 status = true
             });
-
         }
 
         [HttpPost]
@@ -98,7 +97,7 @@ namespace UniShop.Web.Controllers
         {
             var cartViewModel = new JavaScriptSerializer().Deserialize<List<ShoppingCartViewModel>>(cartData);
 
-            var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
+            var cartSession = (List<ShoppingCartViewModel>) Session[CommonConstants.SessionCart];
 
             foreach (var cartSs in cartSession)
             {
@@ -131,7 +130,7 @@ namespace UniShop.Web.Controllers
         [HttpPost]
         public JsonResult DeleteItem(int productId)
         {
-            var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
+            var cartSession = (List<ShoppingCartViewModel>) Session[CommonConstants.SessionCart];
             if (cartSession != null)
             {
                 cartSession.RemoveAll(x => x.ProductId == productId);
@@ -187,9 +186,9 @@ namespace UniShop.Web.Controllers
                 newOrder.CustomerId = User.Identity.GetUserId();
                 newOrder.CreateBy = User.Identity.GetUserName();
             }
-            var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-            List<OrderDetail> lstOrderDetails = new List<OrderDetail>();
-            bool isEnough = true;
+            var cart = (List<ShoppingCartViewModel>) Session[CommonConstants.SessionCart];
+            var lstOrderDetails = new List<OrderDetail>();
+            var isEnough = true;
             foreach (var item in cart)
             {
                 var detail = new OrderDetail();
@@ -213,15 +212,11 @@ namespace UniShop.Web.Controllers
                     status = true
                 });
             }
-            else
+            return Json(new
             {
-                return Json(new
-                {
-                    status = false,
-                    message = "Không đủ số lượng hàng"
-                });
-            }
+                status = false,
+                message = "Không đủ số lượng hàng"
+            });
         }
-
     }
 }

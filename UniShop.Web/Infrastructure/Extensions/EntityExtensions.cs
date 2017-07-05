@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
 using UniShop.Model.Models;
 using UniShop.Web.Models;
 
@@ -28,7 +26,8 @@ namespace UniShop.Web.Infrastructure.Extensions
             postCategory.Status = postCategoryVm.Status;
         }
 
-        public static void UpdateProductCategory(this ProductCategory productCategory, ProductCategoryViewModel productCategoryVm)
+        public static void UpdateProductCategory(this ProductCategory productCategory,
+            ProductCategoryViewModel productCategoryVm)
         {
             productCategory.ID = productCategoryVm.ID;
             productCategory.Name = productCategoryVm.Name;
@@ -46,7 +45,6 @@ namespace UniShop.Web.Infrastructure.Extensions
             productCategory.MetaKeyword = productCategoryVm.MetaKeyword;
             productCategory.MetaDescription = productCategoryVm.MetaDescription;
             productCategory.Status = productCategoryVm.Status;
-
         }
 
         public static void UpdateProduct(this Product product, ProductViewModel productVm)
@@ -78,6 +76,7 @@ namespace UniShop.Web.Infrastructure.Extensions
             product.Quantity = productVm.Quantity;
             product.OriginalPrice = productVm.OriginalPrice;
         }
+
         public static void UpdatePost(this Post post, PostViewModel postVm)
         {
             post.ID = postVm.ID;
@@ -123,13 +122,16 @@ namespace UniShop.Web.Infrastructure.Extensions
             order.PaymentStatus = orderVm.PaymentStatus;
             order.CustomerId = orderVm.CustomerId;
         }
-        public static void UpdateApplicationGroup(this ApplicationGroup appGroup, ApplicationGroupViewModel appGroupViewModel)
+
+        public static void UpdateApplicationGroup(this ApplicationGroup appGroup,
+            ApplicationGroupViewModel appGroupViewModel)
         {
             appGroup.ID = appGroupViewModel.ID;
             appGroup.Name = appGroupViewModel.Name;
         }
 
-        public static void UpdateApplicationRole(this ApplicationRole appRole, ApplicationRoleViewModel appRoleViewModel, string action = "add")
+        public static void UpdateApplicationRole(this ApplicationRole appRole, ApplicationRoleViewModel appRoleViewModel,
+            string action = "add")
         {
             if (action == "update")
                 appRole.Id = appRoleViewModel.Id;
@@ -138,7 +140,9 @@ namespace UniShop.Web.Infrastructure.Extensions
             appRole.Name = appRoleViewModel.Name;
             appRole.Description = appRoleViewModel.Description;
         }
-        public static void UpdateUser(this ApplicationUser appUser, ApplicationUserViewModel appUserViewModel, string action = "add")
+
+        public static void UpdateUser(this ApplicationUser appUser, ApplicationUserViewModel appUserViewModel,
+            string action = "add")
         {
             appUser.Id = appUserViewModel.Id;
             appUser.FullName = appUserViewModel.FullName;
@@ -147,6 +151,5 @@ namespace UniShop.Web.Infrastructure.Extensions
             appUser.UserName = appUserViewModel.UserName;
             appUser.PhoneNumber = appUserViewModel.PhoneNumber;
         }
-
     }
 }

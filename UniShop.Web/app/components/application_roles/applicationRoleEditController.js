@@ -1,39 +1,41 @@
-﻿(function (app) {
-    'use strict';
+﻿(function(app) {
+    "use strict";
 
-    app.controller('applicationRoleEditController', applicationRoleEditController);
+    app.controller("applicationRoleEditController", applicationRoleEditController);
 
-    applicationRoleEditController.$inject = ['$scope', 'apiService', 'notificationService', '$location', '$stateParams'];
+    applicationRoleEditController
+        .$inject = ["$scope", "apiService", "notificationService", "$location", "$stateParams"];
 
     function applicationRoleEditController($scope, apiService, notificationService, $location, $stateParams) {
-        $scope.role = {}
-
-
+        $scope.role = {};
         $scope.updateApplicationRole = updateApplicationRole;
 
         function updateApplicationRole() {
-            apiService.put('/api/applicationRole/update', $scope.role, addSuccessed, addFailed);
+            apiService.put("/api/applicationRole/update", $scope.role, addSuccessed, addFailed);
         }
+
         function loadDetail() {
-            apiService.get('/api/applicationRole/detail/' + $stateParams.id, null,
-            function (result) {
-                $scope.role = result.data;
-            },
-            function (result) {
-                notificationService.displayError(result.data);
-            });
+            apiService.get("/api/applicationRole/detail/" + $stateParams.id,
+                null,
+                function(result) {
+                    $scope.role = result.data;
+                },
+                function(result) {
+                    notificationService.displayError(result.data);
+                });
         }
 
         function addSuccessed() {
-            notificationService.displaySuccess($scope.role.Name + ' đã được cập nhật thành công.');
+            notificationService.displaySuccess($scope.role.Name + " đã được cập nhật thành công.");
 
-            $location.url('application_roles');
+            $location.url("application_roles");
         }
+
         function addFailed(response) {
             notificationService.displayError(response.data.Message);
             notificationService.displayErrorValidation(response);
         }
-     
+
         loadDetail();
     }
-})(angular.module('unishop.application_roles'));
+})(angular.module("unishop.application_roles"));

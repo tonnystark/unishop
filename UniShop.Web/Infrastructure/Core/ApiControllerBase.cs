@@ -13,7 +13,7 @@ namespace UniShop.Web.Infrastructure.Core
     public class ApiControllerBase : ApiController
     {
         private readonly IErrorService _errorService;
-       
+
         public ApiControllerBase(IErrorService errorService)
         {
             _errorService = errorService;
@@ -68,7 +68,7 @@ namespace UniShop.Web.Infrastructure.Core
                 _errorService.CreateError(error);
                 _errorService.Save();
             }
-            catch(Exception ex2)
+            catch (Exception ex2)
             {
             }
         }

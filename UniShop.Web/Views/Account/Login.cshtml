@@ -8,10 +8,9 @@
     <div class=" login-right">
         <h3>Đăng ký thành viên</h3>
         <p>Nếu bạn đã có tài khoản xin vui lòng đăng nhập</p>
-        @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+        @using (Html.BeginForm("Login", "Account", new {returnUrl = ViewBag.ReturnUrl}, FormMethod.Post))
         {
-
-            @Html.ValidationSummary(false, "", new { @class = "error" })
+            @Html.ValidationSummary(false, "", new {@class = "error"})
             <div>
                 <span>Địa chỉ email<label>*</label></span>
                 @Html.TextBoxFor(m => m.UserName)

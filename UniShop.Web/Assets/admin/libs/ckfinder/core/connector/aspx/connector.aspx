@@ -17,4 +17,4 @@
  * You must copy the CKFinder.Connector.dll file to your "bin" directory or
  * make a reference to it in your Visual Studio project.
 --%>
-<CKFinder:Config ID="ConfigFile" runat="server" />
+<CKFinder:Config ID="ConfigFile" runat="server"/>

@@ -21,9 +21,10 @@ namespace UniShop.Web.Api
     [Authorize]
     public class ApplicationGroupController : ApiControllerBase
     {
-        private IApplicationGroupService _appGroupService;
-        private IApplicationRoleService _appRoleService;
-        private ApplicationUserManager _userManager;
+        private readonly IApplicationGroupService _appGroupService;
+        private readonly IApplicationRoleService _appRoleService;
+        private readonly ApplicationUserManager _userManager;
+
         public ApplicationGroupController(IErrorService errorService,
             IApplicationRoleService appRoleService,
             ApplicationUserManager userManager,
@@ -33,23 +34,24 @@ namespace UniShop.Web.Api
             _appRoleService = appRoleService;
             _userManager = userManager;
         }
+
         [Route("getlistpaging")]
         [HttpGet]
-        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string filter = null)
+        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize,
+            string filter = null)
         {
-
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                int totalRow = 0;
+                var totalRow = 0;
                 var model = _appGroupService.GetAll(page, pageSize, out totalRow, filter);
-                IEnumerable<ApplicationGroupViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(model);
+                var modelVm = Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(model);
 
-                PaginationSet<ApplicationGroupViewModel> pagedSet = new PaginationSet<ApplicationGroupViewModel>()
+                var pagedSet = new PaginationSet<ApplicationGroupViewModel>
                 {
                     Page = page,
                     TotalCount = totalRow,
-                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize),
+                    TotalPages = (int) Math.Ceiling((decimal) totalRow/pageSize),
                     Items = modelVm
                 };
 
@@ -67,7 +69,7 @@ namespace UniShop.Web.Api
             {
                 HttpResponseMessage response = null;
                 var model = _appGroupService.GetAll();
-                IEnumerable<ApplicationGroupViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(model);
+                var modelVm = Mapper.Map<IEnumerable<ApplicationGroup>, IEnumerable<ApplicationGroupViewModel>>(model);
 
                 response = request.CreateResponse(HttpStatusCode.OK, modelVm);
 
@@ -83,14 +85,15 @@ namespace UniShop.Web.Api
             {
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, nameof(id) + " is required.");
             }
-            ApplicationGroup appGroup = _appGroupService.GetDetail(id);
+            var appGroup = _appGroupService.GetDetail(id);
             var appGroupViewModel = Mapper.Map<ApplicationGroup, ApplicationGroupViewModel>(appGroup);
             if (appGroup == null)
             {
                 return request.CreateErrorResponse(HttpStatusCode.NoContent, "No group");
             }
             var listRole = _appRoleService.GetListRoleByGroupId(appGroupViewModel.ID);
-            appGroupViewModel.Roles = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(listRole);
+            appGroupViewModel.Roles =
+                Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(listRole);
             return request.CreateResponse(HttpStatusCode.OK, appGroupViewModel);
         }
 
@@ -111,7 +114,7 @@ namespace UniShop.Web.Api
                     var listRoleGroup = new List<ApplicationRoleGroup>();
                     foreach (var role in appGroupViewModel.Roles)
                     {
-                        listRoleGroup.Add(new ApplicationRoleGroup()
+                        listRoleGroup.Add(new ApplicationRoleGroup
                         {
                             GroupId = appGroup.ID,
                             RoleId = role.Id
@@ -122,24 +125,19 @@ namespace UniShop.Web.Api
 
 
                     return request.CreateResponse(HttpStatusCode.OK, appGroupViewModel);
-
-
                 }
                 catch (NameDuplicatedException dex)
                 {
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
-
             }
-            else
-            {
-                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task<HttpResponseMessage> Update(HttpRequestMessage request, ApplicationGroupViewModel appGroupViewModel)
+        public async Task<HttpResponseMessage> Update(HttpRequestMessage request,
+            ApplicationGroupViewModel appGroupViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -162,14 +160,13 @@ namespace UniShop.Web.Api
                                 await _userManager.RemoveFromRolesAsync(user.Id, roleName);
                             }
                         }
-                           
                     }
 
                     //save group
                     var listRoleGroup = new List<ApplicationRoleGroup>();
                     foreach (var role in appGroupViewModel.Roles)
                     {
-                        listRoleGroup.Add(new ApplicationRoleGroup()
+                        listRoleGroup.Add(new ApplicationRoleGroup
                         {
                             GroupId = appGroup.ID,
                             RoleId = role.Id
@@ -196,12 +193,8 @@ namespace UniShop.Web.Api
                 {
                     return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
-
             }
-            else
-            {
-                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+            return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         [HttpDelete]
@@ -214,7 +207,7 @@ namespace UniShop.Web.Api
                 var lstUser = _appGroupService.GetListUserByGroupId(id);
                 foreach (var user in lstUser)
                 {
-                    var roles =  _appRoleService.GetListRoleByGroupId(id).ToArray();
+                    var roles = _appRoleService.GetListRoleByGroupId(id).ToArray();
                     if (roles.Count() > 0)
                     {
                         foreach (var role in roles)
@@ -278,6 +271,5 @@ namespace UniShop.Web.Api
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-
     }
 }

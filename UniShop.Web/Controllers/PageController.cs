@@ -4,17 +4,17 @@ using UniShop.Model.Models;
 using UniShop.Service;
 using UniShop.Web.Models;
 
-
 namespace UniShop.Web.Controllers
 {
     public class PageController : Controller
     {
-        private IPageService _pageService;
+        private readonly IPageService _pageService;
 
         public PageController(IPageService pageService)
         {
             _pageService = pageService;
         }
+
         // GET: Page
         public ActionResult Index(string alias)
         {

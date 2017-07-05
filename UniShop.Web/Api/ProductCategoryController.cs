@@ -51,7 +51,7 @@ namespace UniShop.Web.Api
                 var model = _productCategoryService.GetAll(keyword);
 
                 totalRows = model.Count();
-                var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
+                var query = model.OrderByDescending(x => x.CreatedDate).Skip(page*pageSize).Take(pageSize);
 
                 var responseData = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(query);
 
@@ -60,7 +60,7 @@ namespace UniShop.Web.Api
                     Items = responseData,
                     Page = page,
                     TotalCount = totalRows,
-                    TotalPages = (int)Math.Ceiling((decimal)totalRows / pageSize)
+                    TotalPages = (int) Math.Ceiling((decimal) totalRows/pageSize)
                 };
 
                 var response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
@@ -112,7 +112,6 @@ namespace UniShop.Web.Api
 
                 return response;
             });
-
         }
 
 
@@ -130,7 +129,7 @@ namespace UniShop.Web.Api
                     dbProductCategory.UpdateProductCategory(productCategoryViewModel);
                     dbProductCategory.UpdatedDate = DateTime.Now;
                     dbProductCategory.UpdatedBy = User.Identity.Name;
-                   
+
                     _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.SaveChanges();
 
@@ -145,7 +144,6 @@ namespace UniShop.Web.Api
 
                 return response;
             });
-
         }
 
         [Route("delete")]
@@ -190,9 +188,9 @@ namespace UniShop.Web.Api
                     {
                         _productCategoryService.Delete(id);
                     }
-                   
+
                     _productCategoryService.SaveChanges();
-                    
+
 
                     response = request.CreateResponse(HttpStatusCode.OK, listProductCategory.Count);
                 }
@@ -204,6 +202,5 @@ namespace UniShop.Web.Api
                 return response;
             });
         }
-
     }
 }

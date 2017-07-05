@@ -6,10 +6,10 @@
     config.$inject = ["$stateProvider", "$urlRouterProvider"];
 
     function config($stateProvider, $urlRouterProvider) {
-    	$stateProvider.state("statistic_revenue",
+        $stateProvider.state("statistic_revenue",
         {
-        	url: "/statistic_revenue",
-            parent: 'base',
+            url: "/statistic_revenue",
+            parent: "base",
             templateUrl: "/app/components/statistic/revenueStatisticView.html",
             controller: "revenueStatisticController"
         });

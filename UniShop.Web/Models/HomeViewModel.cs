@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace UniShop.Web.Models
 {
@@ -14,6 +11,5 @@ namespace UniShop.Web.Models
         public string Title { set; get; }
         public string MetaKeyword { set; get; }
         public string MetaDescription { set; get; }
-
     }
 }

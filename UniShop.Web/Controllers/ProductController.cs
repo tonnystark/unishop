@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
@@ -15,14 +13,15 @@ namespace UniShop.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private IProductService _productService;
-        private IProductCategoryService _productCategoryService;
+        private readonly IProductCategoryService _productCategoryService;
+        private readonly IProductService _productService;
 
         public ProductController(IProductService productService, IProductCategoryService productCategoryService)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
         }
+
         // GET: Product
         public ActionResult Detail(int id)
         {
@@ -32,22 +31,23 @@ namespace UniShop.Web.Controllers
             var relatedProduct = _productService.GetReatedProducts(id, 6);
             ViewBag.RelatedProducts = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(relatedProduct);
 
-            List<string> lstImages = new JavaScriptSerializer().Deserialize<List<string>>(productModel.MoreImages);
+            var lstImages = new JavaScriptSerializer().Deserialize<List<string>>(productModel.MoreImages);
             ViewBag.MoreImages = lstImages;
 
-            ViewBag.Tags = Mapper.Map<IEnumerable<Tag>, IEnumerable<TagViewModel>>(_productService.GetListTagByProductId(id));
+            ViewBag.Tags =
+                Mapper.Map<IEnumerable<Tag>, IEnumerable<TagViewModel>>(_productService.GetListTagByProductId(id));
 
             return View(productViewModel);
         }
 
         public ActionResult Category(int id, int page = 1, string sort = "new")
         {
-            int pageSize = int.Parse(ConfigHelper.GetValueByKey("PageSize"));
-            int totalrow = 0;
+            var pageSize = int.Parse(ConfigHelper.GetValueByKey("PageSize"));
+            var totalrow = 0;
             var productModel = _productService.GetListProductByCategoryIdPaging(id, page, pageSize, sort, out totalrow);
             var productViewModel = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productModel);
 
-            int totalPages = (int)Math.Ceiling((double)totalrow / pageSize);
+            var totalPages = (int) Math.Ceiling((double) totalrow/pageSize);
 
             var category = _productCategoryService.GetById(id);
             ViewBag.Category = Mapper.Map<ProductCategory, ProductCategoryViewModel>(category);
@@ -66,12 +66,12 @@ namespace UniShop.Web.Controllers
 
         public ActionResult Search(string keyword, int page = 1, string sort = "new")
         {
-            int pageSize = int.Parse(ConfigHelper.GetValueByKey("PageSize"));
-            int totalrow = 0;
+            var pageSize = int.Parse(ConfigHelper.GetValueByKey("PageSize"));
+            var totalrow = 0;
             var productModel = _productService.Search(keyword, page, pageSize, sort, out totalrow);
             var productViewModel = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productModel);
 
-            int totalPages = (int)Math.Ceiling((double)totalrow / pageSize);
+            var totalPages = (int) Math.Ceiling((double) totalrow/pageSize);
 
             ViewBag.Keyword = keyword;
 
@@ -89,14 +89,14 @@ namespace UniShop.Web.Controllers
 
         public ActionResult ListByTag(string tagId, int page = 1, string sort = "new")
         {
-            int pageSize = int.Parse(ConfigHelper.GetValueByKey("PageSize"));
-            int totalRow = 0;
-            var productModel = _productService.GetListProductByTag(tagId, page, pageSize, sort ,out totalRow);
+            var pageSize = int.Parse(ConfigHelper.GetValueByKey("PageSize"));
+            var totalRow = 0;
+            var productModel = _productService.GetListProductByTag(tagId, page, pageSize, sort, out totalRow);
             var productViewModel = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productModel);
-            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
+            var totalPage = (int) Math.Ceiling((double) totalRow/pageSize);
 
             ViewBag.Tag = Mapper.Map<Tag, TagViewModel>(_productService.GetTag(tagId));
-            var paginationSet = new PaginationSet<ProductViewModel>()
+            var paginationSet = new PaginationSet<ProductViewModel>
             {
                 Items = productViewModel,
                 MaxPages = int.Parse(ConfigHelper.GetValueByKey("MaxPage")),

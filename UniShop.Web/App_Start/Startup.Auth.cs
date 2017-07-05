@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using UniShop.Data;
 using UniShop.Model.Models;
+using UniShop.Web.App_Start;
 
-
-
-[assembly: OwinStartup(typeof(UniShop.Web.App_Start.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 
 namespace UniShop.Web.App_Start
 {
@@ -34,9 +32,7 @@ namespace UniShop.Web.App_Start
                 TokenEndpointPath = new PathString("/oauth/token"),
                 Provider = new AuthorizationServerProvider(),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                AllowInsecureHttp = true,
-
-
+                AllowInsecureHttp = true
             });
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
@@ -49,15 +45,13 @@ namespace UniShop.Web.App_Start
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                      validateInterval: TimeSpan.FromMinutes(30),
-                      regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity =
+                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                            TimeSpan.FromMinutes(30),
+                            (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
-
-
 
 
             // Uncomment the following lines to enable logging in with third party login providers
@@ -80,21 +74,30 @@ namespace UniShop.Web.App_Start
             //});
         }
 
+        private static UserManager<ApplicationUser> CreateManager(
+            IdentityFactoryOptions<UserManager<ApplicationUser>> options, IOwinContext context)
+        {
+            var userStore = new UserStore<ApplicationUser>(context.Get<UniShopDbContext>());
+            var owinManager = new UserManager<ApplicationUser>(userStore);
+            return owinManager;
+        }
+
         public class AuthorizationServerProvider : OAuthAuthorizationServerProvider
         {
             public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
             {
                 context.Validated();
             }
+
             public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
             {
                 var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
 
                 if (allowedOrigin == null) allowedOrigin = "*";
 
-                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
 
-                UserManager<ApplicationUser> userManager = context.OwinContext.GetUserManager<UserManager<ApplicationUser>>();
+                var userManager = context.OwinContext.GetUserManager<UserManager<ApplicationUser>>();
                 ApplicationUser user = null;
                 try
                 {
@@ -109,8 +112,8 @@ namespace UniShop.Web.App_Start
                 }
                 if (user != null)
                 {
-                    ClaimsIdentity identity = await userManager.CreateIdentityAsync(
-                                                           user, DefaultAuthenticationTypes.ExternalBearer);
+                    var identity = await userManager.CreateIdentityAsync(
+                        user, DefaultAuthenticationTypes.ExternalBearer);
                     context.Validated(identity);
                 }
                 else
@@ -119,13 +122,6 @@ namespace UniShop.Web.App_Start
                     context.Rejected();
                 }
             }
-        }
-
-        private static UserManager<ApplicationUser> CreateManager(IdentityFactoryOptions<UserManager<ApplicationUser>> options, IOwinContext context)
-        {
-            var userStore = new UserStore<ApplicationUser>(context.Get<UniShopDbContext>());
-            var owinManager = new UserManager<ApplicationUser>(userStore);
-            return owinManager;
         }
     }
 }
