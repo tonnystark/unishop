@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using UniShop.Common;
 using UniShop.Model.Models;
 using UniShop.Service;
 using UniShop.Web.Models;
@@ -40,6 +41,17 @@ namespace UniShop.Web.Controllers
             homeViewModel.Slides = slideViewModel;
             homeViewModel.LastestProducts= lastestProductViewModel;
             homeViewModel.HotProducts = hotProductViewModel;
+
+            try
+            {
+                homeViewModel.Title = _commonService.GetSystemConfig(CommonConstants.HomeTitle).ValueString;
+                homeViewModel.MetaKeyword = _commonService.GetSystemConfig(CommonConstants.HomeMetaKeyword).ValueString;
+                homeViewModel.MetaDescription = _commonService.GetSystemConfig(CommonConstants.HomeMetaDescription).ValueString;
+            }
+            catch
+            {
+                
+            }
 
             return View(homeViewModel);
         }

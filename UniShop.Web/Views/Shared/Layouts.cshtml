@@ -7,14 +7,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Big shope A Ecommerce Category Flat Bootstarp Resposive Website Template | Home :: w3layouts</title>
-    <link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.MetaDescription" />
+    <meta name="keywords" content="@ViewBag.MetaKeyword" />
+    @*<link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <!--theme-style-->
     <link href="~/Assets/client/css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="~/Assets/client/css/custom.css" rel="stylesheet" />
     <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
     <!--//theme-style-->
-    <link href="~/Assets/client/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Assets/client/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
+    @Styles.Render("~/css/base");
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!--fonts-->
@@ -32,16 +36,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
 
     <!---->
-    @{Html.RenderAction("Footer", "Home");}
-    <div class="clearfix"> </div>
-    <script src="~/Assets/client/js/jquery.min.js"></script>
-<script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/Assets/admin/libs/mustache/mustache.js"></script>
-    <script src="~/Assets/admin/libs/numeral/numeral.js"></script>
+    @*@{Html.RenderAction("Footer", "Home");}
+        <div class="clearfix"> </div>
+        <script src="~/Assets/client/js/jquery.min.js"></script>
+        <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/Assets/admin/libs/mustache/mustache.js"></script>
+        <script src="~/Assets/admin/libs/numeral/numeral.js"></script>
 
-    <script src="~/Assets/client/js/common.js"></script>
+        <script src="~/Assets/client/js/common.js"></script>*@
+
+    @Scripts.Render("~/js/jquery");
+    @Scripts.Render("~/js/core");
     <!--script-->
+
     @RenderSection("footerJs", required: false)
 </body>
 

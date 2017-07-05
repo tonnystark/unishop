@@ -26,8 +26,39 @@ namespace UniShop.Data.Migrations
             //    CreateSlide(context);
             //  CreatePages(context);
             //  CreateContactDetail(context);
+            CreateConfigTitle(context);
         }
 
+        private void CreateConfigTitle(UniShopDbContext context)
+        {
+            if (!context.SystemConfigs.Any(x => x.Code == "HomeTitle"))
+            {
+                context.SystemConfigs.Add(new SystemConfig()
+                {
+                    Code = "HomeTitle",
+                    ValueString = "Trang chủ UniShop",
+
+                });
+            }
+            if (!context.SystemConfigs.Any(x => x.Code == "HomeMetaKeyword"))
+            {
+                context.SystemConfigs.Add(new SystemConfig()
+                {
+                    Code = "HomeMetaKeyword",
+                    ValueString = "Home meta keyword",
+
+                });
+            }
+            if (!context.SystemConfigs.Any(x => x.Code == "HomeMetaDescription"))
+            {
+                context.SystemConfigs.Add(new SystemConfig()
+                {
+                    Code = "HomeMetaDescription",
+                    ValueString = "Home meta description",
+
+                });
+            }
+        }
         void CreateUsers(UniShopDbContext dbContext)
         {
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UniShopDbContext()));
@@ -182,6 +213,7 @@ namespace UniShop.Data.Migrations
 
             }
         }
+
 
     }
 }
