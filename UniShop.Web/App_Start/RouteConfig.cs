@@ -13,6 +13,20 @@ namespace UniShop.Web
             routes.IgnoreRoute("{*botdetect}", new {botdetect = @"(.*)BotDetectCaptcha\.ashx"});
 
             routes.MapRoute(
+                "Confirm Order",
+                "xac-nhan-don-hang.html",
+                new { controller = "ShoppingCart", action = "ConfirmOrder", id = UrlParameter.Optional },
+                new[] { "UniShop.Web.Controllers" }
+                );
+
+            routes.MapRoute(
+              "Cancel Order",
+              "huy-don-hang.html",
+              new { controller = "ShoppingCart", action = "CancelOrder", id = UrlParameter.Optional },
+              new[] { "UniShop.Web.Controllers" }
+              );
+
+            routes.MapRoute(
                 "Cart",
                 "gio-hang.html",
                 new {controller = "ShoppingCart", action = "Index", id = UrlParameter.Optional},

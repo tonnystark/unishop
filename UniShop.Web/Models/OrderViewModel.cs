@@ -41,6 +41,7 @@ namespace UniShop.Web.Models
         [StringLength(128)]
         public string CustomerId { get; set; }
 
+        public string BankCode { get; set; }
         public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
     }
 }

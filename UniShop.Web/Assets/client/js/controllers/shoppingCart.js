@@ -105,6 +105,20 @@
                     if (isValid)
                         cart.createOrder();
                 });
+
+        $('input[name="paymentMethod"]').off('click').on('click', function () {
+            if ($(this).val() == 'NL') {
+                $('.boxContent').hide();
+                $('#nganluongContent').show();
+            }
+            else if ($(this).val() == 'ATM_ONLINE') {
+                $('.boxContent').hide();
+                $('#bankContent').show();
+            }
+            else {
+                $('.boxContent').hide();
+            }
+        });
     },
 
     loadData: function() {
@@ -226,7 +240,8 @@
             CustomerEmail: $("#txtEmail").val(),
             CustomerMobile: $("#txtPhone").val(),
             CustomerMessage: $("#txtMessage").val(),
-            PaymentMethod: "Thanh toán tiền mặt",
+            PaymentMethod: $('input[name="paymentMethod"]:checked').val(),
+            BankCode: $('input[groupname="bankcode"]:checked').prop('id'),
             Status: false
         };
         $.ajax({
@@ -238,13 +253,20 @@
             dataType: "json",
             success: function(res) {
                 if (res.status) {
-                    console.log("create order ok");
-                    $("#divCheckout").hide();
-                    cart.deleteAll();
-                    setTimeout(function() {
+                    if (res.urlCheckout != undefined && res.urlCheckout != '') {
+                        window.location.href = res.urlCheckout;
+                    } else {
+                        console.log("create order ok");
+                        $("#divCheckout").hide();
+                        cart.deleteAll();
+                        setTimeout(function () {
                             $("#cartContent").html("Cảm ơn bạn đã đặt hàng thành công. Chúng tôi sẽ liên hệ sớm nhất.");
                         },
-                        2000);
+                            2000);
+                    }
+                } else {
+                    $('#divMessage').show();
+                    $('#divMessage').text(res.message);
                 }
             }
         });

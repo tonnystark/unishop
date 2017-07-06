@@ -9,6 +9,7 @@ using UniShop.Model.Models;
 using UniShop.Service;
 using UniShop.Web.App_Start;
 using UniShop.Web.Infrastructure.Extensions;
+using UniShop.Web.Infrastructure.NganLuongAPI;
 using UniShop.Web.Models;
 
 namespace UniShop.Web.Controllers
@@ -18,6 +19,10 @@ namespace UniShop.Web.Controllers
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
         private readonly ApplicationUserManager _userManager;
+
+        private string merchantId = ConfigHelper.GetValueByKey("MerchantId");
+        private string merchantPassword = ConfigHelper.GetValueByKey("MerchantPassword");
+        private string merchantEmail = ConfigHelper.GetValueByKey("MerchantEmail");
 
         public ShoppingCartController(IProductService productService, ApplicationUserManager userManager,
             IOrderService orderService)
@@ -174,7 +179,7 @@ namespace UniShop.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateOrder(string orderViewModel)
+        public ActionResult CreateOrder(string orderViewModel)
         {
             var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
             var newOrder = new Order();
@@ -205,18 +210,95 @@ namespace UniShop.Web.Controllers
 
             if (isEnough)
             {
-                _orderService.CreateOrder(newOrder, lstOrderDetails);
+                var orderReturn = _orderService.CreateOrder(newOrder, lstOrderDetails);
                 _productService.SaveChanges();
-                return Json(new
+
+                if (order.PaymentMethod == "CASH")
                 {
-                    status = true
-                });
+                    return Json(new
+                    {
+                        status = true
+                    }); 
+                }
+                else
+                {
+                    var currentLink = ConfigHelper.GetValueByKey("CurrentLink");
+                    RequestInfo info = new RequestInfo();
+                    info.Merchant_id = merchantId;
+                    info.Merchant_password = merchantPassword;
+                    info.Receiver_email = merchantEmail;
+
+
+
+                    info.cur_code = "vnd";
+                    info.bank_code = order.BankCode;
+
+                    info.Order_code = orderReturn.ID.ToString();
+                    info.Total_amount = lstOrderDetails.Sum(x => x.Quantity * x.Price).ToString();
+                    info.fee_shipping = "0";
+                    info.Discount_amount = "0";
+                    info.order_description = "Thanh toán đơn hàng tại UniShop";
+                    info.return_url = currentLink + "xac-nhan-don-hang.html";
+                    info.cancel_url = currentLink + "huy-don-hang.html";
+
+                    info.Buyer_fullname = order.CustomerName;
+                    info.Buyer_email = order.CustomerEmail;
+                    info.Buyer_mobile = order.CustomerMobile;
+
+                    APICheckoutV3 objNLChecout = new APICheckoutV3();
+                    ResponseInfo result = objNLChecout.GetUrlCheckout(info, order.PaymentMethod);
+                    if (result.Error_code == "00")
+                    {
+                        return Json(new
+                        {
+                            status = true,
+                            urlCheckout = result.Checkout_url,
+                            message = result.Description
+                        });
+                    }
+                    else
+                        return Json(new
+                        {
+                            status = false,
+                            message = result.Description
+                        });
+                }
             }
             return Json(new
             {
                 status = false,
                 message = "Không đủ số lượng hàng"
             });
+        }
+
+        public ActionResult ConfirmOrder()
+        {
+            string token = Request["token"];
+            RequestCheckOrder info = new RequestCheckOrder();
+            info.Merchant_id = merchantId;
+            info.Merchant_password = merchantPassword;
+            info.Token = token;
+            APICheckoutV3 objNLChecout = new APICheckoutV3();
+            ResponseCheckOrder result = objNLChecout.GetTransactionDetail(info);
+            if (result.errorCode == "00")
+            {
+                //update status order
+                _orderService.UpdateStatus(int.Parse(result.order_code));
+                _orderService.Save();
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Thanh toán thành công. Chúng tôi sẽ liên hệ lại sớm nhất.";
+            }
+            else
+            {
+                ViewBag.IsSuccess = false;
+                ViewBag.Result = "Có lỗi xảy ra. Vui lòng liên hệ admin.";
+            }
+            return View();
+        }
+
+        public ActionResult CancelOrder()
+        {
+            return View();
         }
     }
 }

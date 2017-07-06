@@ -11,7 +11,9 @@ namespace UniShop.Service
 {
     public interface IOrderService
     {
-        bool CreateOrder(Order order, List<OrderDetail> orderDetails);
+        Order CreateOrder(Order order, List<OrderDetail> orderDetails);
+        void UpdateStatus(int orderId);
+        void Save();
     }
     public class OrderService : IOrderService
     {
@@ -26,7 +28,7 @@ namespace UniShop.Service
             _unitOfWork = unitOfWork;
         }
 
-        public bool CreateOrder(Order order, List<OrderDetail> orderDetails)
+        public Order CreateOrder(Order order, List<OrderDetail> orderDetails)
         {
             try
             {
@@ -39,12 +41,24 @@ namespace UniShop.Service
                     _orderDetailRepository.Add(orderDetail);
                 }
             
-                return true;
+                return order ;
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
+        }
+
+        public void UpdateStatus(int orderId)
+        {
+            var order = _orderRepository.GetSingleById(orderId);
+            order.Status = true;
+            _orderRepository.Update(order);
+        }
+
+        public void Save()
+        {
+           _unitOfWork.Commit();
         }
     }
 }

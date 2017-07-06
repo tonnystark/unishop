@@ -1,4 +1,7 @@
-﻿using System.Web.Optimization;
+﻿using System;
+using System.Configuration;
+using System.Web.Optimization;
+using UniShop.Common;
 
 namespace UniShop.Web
 {
@@ -24,7 +27,7 @@ namespace UniShop.Web
                     new CssRewriteUrlTransform())
                 .Include("~/Assets/client/font-awesome-4.7.0/css/font-awesome.min.css", new CssRewriteUrlTransform()));
 
-            BundleTable.EnableOptimizations = true;
-        }
+            BundleTable.EnableOptimizations = bool.Parse(ConfigHelper.GetValueByKey("EnableBundles"));
+        } 
     }
 }
