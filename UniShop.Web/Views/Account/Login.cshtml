@@ -1,4 +1,5 @@
-﻿@model UniShop.Web.Models.LoginViewModel
+﻿@using UniShop.Web.Models
+@model UniShop.Web.Models.LoginViewModel
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/Layouts.cshtml";
@@ -26,7 +27,7 @@
             <a class="forgot" href="#">Quên mật khẩu</a>
             <input type="submit" value="Login">
         }
-
+        @Html.Partial("_ExternalLoginListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
 
     </div>
     <div class=" login-left">
